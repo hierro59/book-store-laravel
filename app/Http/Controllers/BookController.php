@@ -155,7 +155,7 @@ class bookController extends Controller
             'discount' => $thisbook->discount,
             'categoria' => $categoria->name,
             'detalle' => $thisbook->detail,
-            'image_name' => $cover['image_name'],
+            'image_name' => $cover[0]['image_name'],
             'file' => $thisbook->file_path,
             'allstatus' => $allstatus
         ];
