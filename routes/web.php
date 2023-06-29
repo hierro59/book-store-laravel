@@ -32,10 +32,6 @@ Route::get('catalog', [CatalogHomeCotroller::class, 'index'])->name('catalog');
 Route::get('detail/{book}', [CatalogHomeCotroller::class, 'detail'])->name('detail');
 Route::get('publish', [PublishHomeCotroller::class, 'index'])->name('publish');
 
-http://localhost:8000/storage/books/DAeKoFJYRiI8gvMD0KLOolK9Bo4qxf4JCKJt7nWi.pdf
-
-
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
