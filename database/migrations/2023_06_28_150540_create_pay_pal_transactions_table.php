@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string("pp_payments_create_time")->nullable();
             $table->string("pp_payments_update_time")->nullable();
             $table->longText("pp_response");
-            $table->timestamps()->useCurrent();
+            $table->timestamps();
         });
     }
 
