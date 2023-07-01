@@ -19,11 +19,12 @@ class LibraryDiskController extends Controller
                 404,
                 "The file doesn't exist. Check the path."
                 );
-                
+            logger("El Try");
             return Storage::disk('/storage/library')->response($path);
         } catch (Exception $e) {
+            logger("El Catch");
             logger($e);
         }
-        
+        logger("Ni el Try ni el catch");
     }
 }
