@@ -110,7 +110,7 @@ class bookController extends Controller
                     'autor' => 'required',
                 ]);
                 
-                $uploadBook = $request->file('bookFile')->store('public/books');
+                $uploadBook = $request->file('bookFile')->store('library');
 
                 $fileBook = explode("/", $uploadBook);
 
@@ -118,7 +118,7 @@ class bookController extends Controller
                 
                 $thisbook = Books::find($save->id);
                 $thisbook->slug = Str::slug($request->name, '-') . "-" . $save->id;
-                $thisbook->file_path = $fileBook[2];
+                $thisbook->file_path = $uploadBook;
                 $thisbook->save();
             
                 if ($request->portadaFile) {

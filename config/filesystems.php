@@ -56,6 +56,14 @@ return [
             'throw' => false,
         ],
 
+        'library' => [
+            'driver' => 'local',
+            'root' => storage_path('/app/public/library'),
+            //'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+        
+
     ],
 
     /*
@@ -71,6 +79,6 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('library') => storage_path('app/public/library'),
     ],
-
 ];

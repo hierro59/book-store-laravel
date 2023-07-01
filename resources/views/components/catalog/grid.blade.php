@@ -47,36 +47,18 @@
                             @endif
                         </div>
                     @endif
-                    
-                        
-                        
-                        @if ($book['price'] == "0.00")
-                            @auth
-                                <a class="btn btn-primary btnhover" href="../storage/books/{{ $book['book_file'] }}" target="_BLANK">Leer Gratis</a>
-                            @else
-                                <a class="btn btn-primary btnhover" href="login">Descargar</a>
-                            @endauth
+                    @if ($book['price'] == "0.00")
+                        @auth
+                            <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer Gratis</a>
                         @else
-                            @auth
-                                @if ($book['owner'])
-                                    <a class="btn btn-primary btnhover" href="../storage/books/{{ $book['book_file'] }}" target="_BLANK">Leer en mi Biblioteca</a>
-                                @else
-                                    <x-home.paypal-button :data="$book" /> 
-                                    <a 
-                                    class="btn btn-primary btnhover"
-                                    data-te-toggle="modal"
-                                    data-te-target="#Modal{{ $book['book_id'] }}">
-                                    <i class="fa-solid fa-eye mr-2"></i>
-                                        Ver mas
-                                    </a>
-                                @endif
-                                
+                            <a class="btn btn-primary btnhover" href="login">Descargar</a>
+                        @endauth
+                    @else
+                        @auth
+                            @if ($book['owner'])
+                                <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer en mi Biblioteca</a>
                             @else
-                                <a class="btn btn-primary btnhover" href="login"><span class="mr-2">Comprar ${{ $book['sale'] }} </span>
-                                    @if ($book['discount'])
-                                        <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
-                                    @endif
-                                </a>
+                                <x-home.paypal-button :data="$book" /> 
                                 <a 
                                 class="btn btn-primary btnhover"
                                 data-te-toggle="modal"
@@ -84,9 +66,24 @@
                                 <i class="fa-solid fa-eye mr-2"></i>
                                     Ver mas
                                 </a>
-                            @endauth
+                            @endif
                             
-                        @endif
+                        @else
+                            <a class="btn btn-primary btnhover" href="login"><span class="mr-2">Comprar ${{ $book['sale'] }} </span>
+                                @if ($book['discount'])
+                                    <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
+                                @endif
+                            </a>
+                            <a 
+                            class="btn btn-primary btnhover"
+                            data-te-toggle="modal"
+                            data-te-target="#Modal{{ $book['book_id'] }}">
+                            <i class="fa-solid fa-eye mr-2"></i>
+                                Ver mas
+                            </a>
+                        @endauth
+                        
+                    @endif
                         
                     {{-- <button
                         type="button"

@@ -4,7 +4,7 @@
     <div class="col-book style-1">
         <div class="tp-shop-card style-1">
             <div class="tp-media">
-                <a href="storage/books/{{ $book['book_file'] }}">
+                <a href="{{ asset($book['book_file']) }}">
                     <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">
                 </a>
             </div>
@@ -29,7 +29,7 @@
                 </ul>
                 <div class="book-footer">
                     
-                    <a class="btn btn-primary btnhover" href="storage/books/{{ $book['book_file'] }}" target="_BLANK">Leer</a>
+                    <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer</a>
                     
                 </div>
             </div>

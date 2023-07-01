@@ -79,7 +79,7 @@
                     <x-divisor-line/>
 
                     <x-primary-button>
-                        <a href="../storage/books/{{ $book['file'] }}" target="_BLANK">Descargar Archivo</a>
+                        <a href="{{ asset($book['file']) }}" target="_BLANK">Descargar Archivo</a>
                     </x-primary-button>
                     
                 </div>

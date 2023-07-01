@@ -38,7 +38,7 @@
                                         <div class="content-btn" data-swiper-parallax="-60">
                                             @if ($book['price'] == "0.00")
                                                 @auth
-                                                    <a class="btn btn-primary btnhover" href="storage/books/{{ $book['book_file'] }}" target="_BLANK">Descargar</a>
+                                                    <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Descargar</a>
                                                 @else
                                                     <a class="btn btn-primary btnhover" href="register">Descargar</a>
                                                 @endauth

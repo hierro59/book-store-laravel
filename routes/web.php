@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\CatalogHomeCotroller;
-use App\Http\Controllers\MyLibraryController;
-use App\Http\Controllers\PublishHomeCotroller;
-use App\Http\Controllers\WelcomeCotroller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ResizeController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WelcomeCotroller;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MyLibraryController;
+use App\Http\Controllers\CatalogHomeCotroller;
+use App\Http\Controllers\PublishHomeCotroller;
+use App\Http\Controllers\LibraryDiskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,18 @@ Route::get('/', [WelcomeCotroller::class, 'index'])->name('welcome');
 Route::get('catalog', [CatalogHomeCotroller::class, 'index'])->name('catalog');
 Route::get('detail/{book}', [CatalogHomeCotroller::class, 'detail'])->name('detail');
 Route::get('publish', [PublishHomeCotroller::class, 'index'])->name('publish');
+
+try {
+    Route::get('storage/app/public/library', function () {
+       
+            $file = file_exists('storage/app/public/library/GYMY7PIUmLSlQgoh9mst8D4Neco5wshhMwLs44b5.pdf');
+            return $file;
+       
+    });
+} catch (Exception $e) {
+    logger($e);
+}
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -56,9 +69,11 @@ Route::middleware('auth')->group(function () {
         Route::get('payment-success', 'paymentSuccess')->name('success.payment');
     });
 
-    Route::get('/storage/books', function () {
+    Route::get('/storage/library/{path}', LibraryDiskController::class);
+
+    /* Route::get('/storage/books', function () {
         
-    })->middleware(['auth', 'verified']);
+    })->middleware(['auth', 'verified']); */
 });
 
 Route::group(['middleware' => ['role:super-admin']], function () {
@@ -67,6 +82,8 @@ Route::group(['middleware' => ['role:super-admin']], function () {
     Route::resource('roles', RoleController::class);
     
 });
+
+
 
 /* Route::group(['middleware' => ['role:super-admin|autor']], function () {
     //Route::resource('books', BookController::class);

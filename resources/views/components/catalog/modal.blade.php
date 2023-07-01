@@ -123,14 +123,14 @@
                                                 <div class="product-num">
                                                 @if ($book['price'] == "0.00")
                                                     @auth
-                                                        <a class="btn btn-primary btnhover" href="../storage/books/{{ $book['book_file'] }}" target="_BLANK">Leer Gratis</a>
+                                                        <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer Gratis</a>
                                                     @else
                                                         <a class="btn btn-primary btnhover" href="login">Descargar</a>
                                                     @endauth
                                                 @else
                                                     @auth
                                                         @if ($book['owner'])
-                                                            <a class="btn btn-primary btnhover" href="../storage/books/{{ $book['book_file'] }}" target="_BLANK">Leer en mi Biblioteca</a>
+                                                            <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer en mi Biblioteca</a>
                                                         @else
                                                             <x-home.paypal-button :data="$book" /> 
                                                         @endif
