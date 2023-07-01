@@ -39,9 +39,10 @@
         class="mb-4 mr-2 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
         href="{{ route('welcome') }}">
         <img
-          src="{{ asset('assets/images/logo.png') }}"
-          style="height: 50px"
-          alt=""
+          src="{{ asset('assets/images/logo-header.svg') }}"
+          style="height: 30px"
+          alt="Textos Prohibidos"
+          title="Textos Prohibidos"
           loading="lazy" />
       </a>
         <form class="search-input p-4">

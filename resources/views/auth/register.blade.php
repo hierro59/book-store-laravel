@@ -1,10 +1,22 @@
 <x-guest-layout>
+    <ul class="hidden mb-4 text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
+        <li class="w-full">
+            <a href="{{ route('login') }}" class="inline-block w-full p-4 bg-white rounded-r-lg hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
+                Iniciar sesión
+            </a>
+        </li>
+        <li class="w-full">
+            <a href="#" class="inline-block w-full p-4 text-gray-900 font-extrabold bg-gray-100 rounded-l-lg focus:ring-4 focus:ring-blue-300 active focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">
+                Registrase
+            </a>
+        </li>
+    </ul>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Nombre')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
@@ -30,7 +42,7 @@
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="password_confirmation" :value="__('Confirme Password')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
@@ -39,7 +51,7 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
         <div class="mt-4">
-            <x-input-label for="role" :value="__('Que eres?')" />
+            <x-input-label for="role" :value="__('¿Que eres?')" />
             <ul class="grid w-full gap-6 md:grid-cols-2">
                 <li>
                     <input type="radio" id="hosting-small" name="roles" value="customer" class="hidden peer" required>
@@ -67,11 +79,11 @@
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+                {{ __('Ya estoy registrado') }}
             </a>
 
             <x-primary-button class="ml-4">
-                {{ __('Register') }}
+                {{ __('Registrar') }}
             </x-primary-button>
         </div>
     </form>

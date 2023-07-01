@@ -28,6 +28,10 @@ Route::get('/', [WelcomeCotroller::class, 'index'])->name('welcome');
 Route::get('catalog', [CatalogHomeCotroller::class, 'index'])->name('catalog');
 Route::get('detail/{book}', [CatalogHomeCotroller::class, 'detail'])->name('detail');
 Route::get('publish', [PublishHomeCotroller::class, 'index'])->name('publish');
+Route::get('privacy-policies', function () {
+    $counters =  WelcomeCotroller::counters();
+    return view('privacy-policies', compact('counters'));
+})->name('privacy-policies');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

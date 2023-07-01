@@ -12,7 +12,7 @@
 	<meta name="format-detection" content="telephone=no">
 	
 	<!-- FAVICONS ICON -->
-	<link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon.png') }}">
+	<link rel="icon" type="image/x-icon" href="{{ asset('assets/icons/favicon.png') }}">
 	
 	<!-- PAGE TITLE HERE -->
 	<title>Texto Prohibido &#8211; Descubre la magia de los textos que desafían las reglas</title>

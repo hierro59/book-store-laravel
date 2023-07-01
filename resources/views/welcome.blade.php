@@ -99,7 +99,7 @@
 								</div>
 								<div class="icon-content">
 									<h2 class="tp-title counter m-b0">{{ $counters['books'] }}</h2>
-									<p class="font-20">Nuestras libros</p>
+									<p class="font-20">Nuestros libros</p>
 								</div>
 							</div>
 						</div>

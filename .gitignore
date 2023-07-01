@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /public/thumbnail
+/public/library
 /storage/*.key
 .env
 .env.backup
