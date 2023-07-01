@@ -144,6 +144,7 @@ class bookController extends Controller
         $status = BookStatus::find($thisbook->status);
         $categoria = Categorie::find($thisbook->categorie);
         $cover = UserUploadImages::where('book_id', $thisbook->id)->get();
+        count($cover) >= 1 ? $portada = $cover[0]['image_name'] : $portada = NULL;
         $thebook = [
             'book_id' => $thisbook->id,
             'book_slug' => $thisbook->slug,
@@ -155,7 +156,7 @@ class bookController extends Controller
             'discount' => $thisbook->discount,
             'categoria' => $categoria->name,
             'detalle' => $thisbook->detail,
-            'image_name' => $cover[0]['image_name'],
+            'image_name' => $portada,
             'file' => $thisbook->file_path,
             'allstatus' => $allstatus
         ];
