@@ -58,7 +58,7 @@ return [
 
         'library' => [
             'driver' => 'local',
-            'root' => storage_path('/app/public/library'),
+            'root' => storage_path('/app/library'),
             'visibility' => 'public',
         ],
     ],
@@ -76,6 +76,6 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        public_path('library') => storage_path('app/public/library'),
+        public_path('library') => storage_path('app/library'),
     ],
 ];
