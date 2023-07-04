@@ -6,6 +6,7 @@
 /public/thumbnail
 /public/library
 /storage/*.key
+/storage/app/library
 .env
 .env.backup
 .env.production

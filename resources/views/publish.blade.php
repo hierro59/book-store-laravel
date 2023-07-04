@@ -87,7 +87,7 @@
                     </li>
                 </ol>
                 <div class="mt-24">
-                    <iframe class="w-full h-96" src="https://www.youtube.com/embed/duRZ2OlBvTo?controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <iframe class="w-full h-96" src="https://www.youtube.com/embed/EyvQejm3MTU?controls=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
             </section>
 

@@ -2,6 +2,7 @@
     
 namespace App\Http\Controllers;
     
+use Exception;
 use App\Models\User;
 use App\Models\Books;
 use App\Models\Categorie;
@@ -9,9 +10,9 @@ use App\Models\BookStatus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\UserUploadImages;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ResizeController;
-use Exception;
 
 class bookController extends Controller
 { 
@@ -59,7 +60,19 @@ class bookController extends Controller
     public function create()
     {
         $categoria = Categorie::all();
-        return view('books.create')->with('categoria', $categoria);
+        $autors = DB::table('model_has_roles')->where('role_id', '=', 4)->get();
+        //dd($autors[0]->model_id);
+        $autores = [];
+        for ($i=0; $i < count($autors); $i++) { 
+            $findAutor = User::find($autors[$i]->model_id);
+            $datos = [
+                'autor_id' => $findAutor->id,
+                'autor_name' => $findAutor->name
+            ];
+            array_push($autores, $datos);
+        }
+        
+        return view('books.create', compact('autores'))->with('categoria', $categoria);
     }
     
     /**

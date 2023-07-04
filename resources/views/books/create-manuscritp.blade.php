@@ -3,7 +3,7 @@
         <div class="flex flex-wrap md:flex-wrap justify-center"> 
             <div class="content-center">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Upload New Book') }}
+                    {{ __('Cargar manuscrito') }}
                 </h2>
             </div>
             <div class="w-64 ">
