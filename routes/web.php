@@ -57,8 +57,6 @@ Route::middleware('auth')->group(function () {
         Route::get('payment-success', 'paymentSuccess')->name('success.payment');
     });
 
-    /* Route::get('/storage/library/{path}', LibraryDiskController::class); */
-
 });
 
 Route::group(['middleware' => ['role:super-admin']], function () {
