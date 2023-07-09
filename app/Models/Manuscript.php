@@ -17,11 +17,11 @@ class Manuscript extends Model
         'publish_date',
         'isbn',
         'language',
-        'status',
         'categorie',
         'sub_categorie',
         'status',
         'file_path',
+        'deleted',
         'created_by'
     ];
 }

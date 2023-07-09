@@ -51,7 +51,9 @@ class CatalogHomeCotroller extends Controller
             ];
             array_push($books, $dataBanner);
         }
-        return view('catalog', compact('books', 'getbooks'))
+        $notifications = OperationServicesController::Notifications();
+
+        return view('catalog', compact('books', 'getbooks', 'notifications'))
         ->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
@@ -114,6 +116,9 @@ class CatalogHomeCotroller extends Controller
             'offer' => ($book->discount > 0 ? $book->discount : NULL)
             
         ];
-        return view('detail', compact('data', 'books'));
+
+        $notifications = OperationServicesController::Notifications();
+
+        return view('detail', compact('data', 'books', 'notifications'));
     }
 }

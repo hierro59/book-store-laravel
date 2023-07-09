@@ -1,9 +1,10 @@
-@props(['data'])
+@props(['notifications'])
 
 <!-- Main navigation container -->
 <nav
   class="flex-no-wrap relative flex w-full items-center justify-between bg-white py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4"
   data-te-navbar-ref>
+  
   <div class="flex w-full flex-wrap items-center justify-between px-3">
     <!-- Hamburger button for mobile view -->
     <button
@@ -128,43 +129,47 @@
                 clip-rule="evenodd" />
             </svg>
           </span>
+
           <!-- Notification counter -->
           <span
             class="absolute -mt-2.5 ml-2 rounded-[0.37rem] bg-danger px-[0.45em] py-[0.2em] text-[0.6rem] leading-none text-white"
-            >1</span
+            >{{ $notifications['count'] }}</span
           >
+
         </a>
         <!-- First dropdown menu -->
-        {{-- <ul
+        <ul
           class="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
           aria-labelledby="dropdownMenuButton1"
           data-te-dropdown-menu-ref>
           <!-- First dropdown menu items -->
+          
+          @foreach ($notifications['last'] as $news)
           <li>
             <a
               class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
               href="#"
               data-te-dropdown-item-ref
-              >Action</a
-            >
+              >
+              <b>{{ $news['titulo'] }}</b>
+              <p>
+                <small>{{ $news['detalle'] }}</small>
+              </p>
+              <p>
+                <small>{{ date('d-m-Y', strtotime($news['created_at'])) }}</small>
+              </p>
+              
+            </a>
           </li>
-          <li>
-            <a
-              class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-              href="#"
-              data-te-dropdown-item-ref
-              >Another action</a
-            >
-          </li>
-          <li>
-            <a
-              class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-              href="#"
-              data-te-dropdown-item-ref
-              >Something else here</a
-            >
-          </li>
-        </ul> --}}
+          <hr>
+          @endforeach
+        </ul>
+      <form action="{{ route('notifications.update') }}" method="POST" id="notifications">
+        @csrf
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <input type="text" id="action" name="action" value="read" hidden/>
+        <input type="text" id="user_id" name="user_id" value="{{Auth::user()->id}}" hidden/>
+      </form>
       </div>
 
       <!-- Second dropdown container -->
@@ -251,6 +256,7 @@
     @endauth
   </div>
 </nav>
+
 
 
 

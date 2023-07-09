@@ -39,7 +39,8 @@ class MyLibraryController extends Controller
             array_push($books, $dataBanner);
         }
         $counters =  WelcomeCotroller::counters();
+        $notifications = OperationServicesController::Notifications();
         
-        return view('my-library', compact('books', 'counters'));
+        return view('my-library', compact('books', 'counters', 'notifications'));
     }
 }

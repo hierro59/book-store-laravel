@@ -17,13 +17,13 @@
                                 <div class="swiper-content">
                                     <div class="content-info" style="padding-left: 10%">
                                         <h6 class="text-neutral-50 tracking-widest" data-swiper-parallax="-10">BEST MANAGEMENT </h6>
-                                        <h1 class="title mb-0 text-white" data-swiper-parallax="-20">{{ $book['book_name'] }}</h1>
+                                        <h1 class="title mb-0 text-white" data-swiper-parallax="-20">{{ $book['name'] }}</h1>
                                         <ul class="tp-tags" data-swiper-parallax="-30">
                                             <li><a class="text-white"href="javascript:void(0);">{{ $book['autor'] }}</a></li>
                                             <li><a class="text-white" href="javascript:void(0);">{{ $book['categoria'] }}</a></li>
                                             <li><a class="text-white" href="javascript:void(0);">{{ $book['year'] }}</a></li>
                                         </ul>
-                                        <p class="text mb-0 text-white" data-swiper-parallax="-40">{{ $book['book_detail'] }}</p>
+                                        <p class="text mb-0 text-white" data-swiper-parallax="-40">{{ $book['detail'] }}</p>
                                         <div class="price" data-swiper-parallax="-50">
                                             @if ($book['price'] == "0.00")
                                                 <span class="price-num text-white">GRATIS</span>
@@ -38,7 +38,7 @@
                                         <div class="content-btn" data-swiper-parallax="-60">
                                             @if ($book['price'] == "0.00")
                                                 @auth
-                                                    <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Descargar</a>
+                                                    <a class="btn btn-primary btnhover" href="{{ asset($book['file_path']) }}" target="_BLANK">Descargar</a>
                                                 @else
                                                     <a class="btn btn-primary btnhover" href="register">Descargar</a>
                                                 @endauth
@@ -48,14 +48,14 @@
 
 
                                                         $payment = [
-                                                            $book['book_name'] . "-" . $book['book_id'],
+                                                            $book['name'] . "-" . $book['id'],
                                                             $book['sale']
                                                         ];
                                                     @endphp
                                                     <x-home.paypal-button :data="$book" />    
                                                 <!-- Set up a container element for the button -->
-                                                    {{-- <div id="paypal-button-container-{{ $book['book_id'] }}" style="width: 30%"></div>
-                                                    <x-home.paypal-button data="{{ $book['book_id'] }}" /> --}}
+                                                    {{-- <div id="paypal-button-container-{{ $book['id'] }}" style="width: 30%"></div>
+                                                    <x-home.paypal-button data="{{ $book['id'] }}" /> --}}
                                                 @else
                                                     <a class="btn btn-primary btnhover" href="register">Comprar ${{ $book['sale'] }}</a>
                                                 @endauth
@@ -79,13 +79,13 @@
             @foreach ($booksBanner as $book)
             
             <div class="swiper-slide">
-                <a href="{{ route('detail', $book['book_slug']) }}">
+                <a href="{{ route('detail', $book['slug']) }}">
                 <div class="books-card">
                     <div class="tp-media">
                         <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">									
                     </div>
                     <div class="tp-content">
-                        <h5 class="title mb-0">{{ $book['book_name'] }}</h5>
+                        <h5 class="title mb-0">{{ $book['name'] }}</h5>
                         <div class="tp-meta">
                             <ul>
                                 <li>by {{ $book['autor'] }}</li>

@@ -2,8 +2,8 @@
 
 @php
 
-  $book_id = isset($data['book_id']) ? $data['book_id'] : NULL;
-  $book_name = isset($data['book_name']) ? $data['book_name'] : NULL;
+  $book_id = isset($data['id']) ? $data['id'] : NULL;
+  $book_name = isset($data['name']) ? $data['name'] : NULL;
   $autor = isset($data['autor']) ? $data['autor'] : NULL;
   $amount = isset($data['sale']) ? $data['sale'] : NULL;
   $codigo_ref = rand(10000, 99999);

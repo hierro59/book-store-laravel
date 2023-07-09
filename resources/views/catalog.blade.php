@@ -4,7 +4,7 @@
 <body>
 	<div class="page-wraper">
         <!-- Header -->
-		<x-header />
+		<x-header :notifications="$notifications" />
 		<!-- Header End -->
 		<div class="page-content bg-grey">
 			<section class="content-inner-1 border-bottom px-20">

@@ -15,7 +15,7 @@
 		</div> -->
 	
 		<!-- Header -->
-		<x-header />
+		<x-header :notifications="$notifications" />
 		<!-- Header End -->
 		
         <x-home.book-detail :book="$data" :books="$books" />

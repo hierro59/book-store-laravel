@@ -17,7 +17,7 @@
 		</div> -->
 	
 		<!-- Header -->
-		<x-header :data="$categorias" />
+		<x-header :notifications="$notifications"/>
 		<!-- Header End -->
 		
 		<div class="page-content bg-white">

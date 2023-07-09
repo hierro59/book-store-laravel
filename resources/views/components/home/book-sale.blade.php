@@ -13,15 +13,15 @@
             <div class="swiper-wrapper">
             @foreach ($booksSales as $book)
                 <div class="swiper-slide">
-                    <a href="{{ route('detail', $book['book_slug']) }}">
+                    <a href="{{ route('detail', $book['slug']) }}">
                     <div class="books-card style-3 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="tp-media">
                             <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">									
                         </div>
                         <div class="tp-content">
-                            <h5 class="title"><a href="{{ route('detail', $book['book_slug']) }}">{{ $book['book_name'] }}</a></h5>
+                            <h5 class="title"><a href="{{ route('detail', $book['slug']) }}">{{ $book['name'] }}</a></h5>
                             <ul class="tp-tags">
-                                <li><a href="{{ route('detail', $book['book_slug']) }}">{{ $book['categoria'] }}</a></li>
+                                <li><a href="{{ route('detail', $book['slug']) }}">{{ $book['categoria'] }}</a></li>
                                 {{-- <li><a href="books-grid-view.html">DRAMA</a></li> --}}
                             </ul>
                             <div class="book-footer">
@@ -37,16 +37,7 @@
                                     @else
                                         <span class="price-num">${{ $book['sale'] }}</span>
                                     @endif
-
-                                    
                                 </div>
-
-                                {{-- <div class="price">
-                                    <span class="price-num">${{ $book['sale'] }}</span>
-                                    @if ($book['discount'])
-                                        <del>${{ $book['price'] }}</del>
-                                    @endif 
-                                </div>--}}
                             </div>
                         </div>
                     </div>

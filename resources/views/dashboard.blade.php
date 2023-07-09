@@ -26,18 +26,22 @@
                                 <p class="font-normal text-gray-700 dark:text-gray-400">Modulo de administracion de Roles.</p>
                             </a>
                         </div>
-
-
+                       
 @endrole
-@role(['super-admin', 'autor'])
+@role(['autor', 'super-admin', 'admin', 'curator'])
+                        <div>
+                            <a href="{{ route('manuscripts.index') }}" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Publicar una obra</h5>
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Ideal si deseas que nosotros editemos tu obra.</p>
+                            </a>
+                        </div>
                         <div>
                             <a href="{{ route('books.index') }}" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Admin Books</h5>
-                                <p class="font-normal text-gray-700 dark:text-gray-400">Modulo para administrar Libros.</p>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Auto Publicar</h5>
+                                <p class="font-normal text-gray-700 dark:text-gray-400">Si tu obra ya está editada y solo quieres publicarla en nuestro catálogo.</p>
                             </a>
                         </div>
 @endrole
-
 
                         <div>
                             <a href="{{ route('profile.edit') }}" class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">

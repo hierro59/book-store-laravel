@@ -11,7 +11,6 @@
 <script src="{{ asset('assets/js/tp.ajax.js') }}"></script><!-- AJAX -->
 <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 <script>
-
     $(document).ready(function(){
         $("#display-01").click(function(){
             $("#div-01").fadeIn('slow');
@@ -21,6 +20,18 @@
             $("#div-02").fadeIn('slow');
             $("#div-01").fadeOut('slow');
         });
-    });
 
+
+
+        /* NOTIFICACIONES */
+        $("#dropdownMenuButton1").click(function (e) {
+            e.preventDefault();
+            var formdata = $('#notifications').serialize();
+            $.ajax({
+                type: "post",
+                url: "notifications/update",
+                data: formdata
+            });
+        });
+    });
 </script>

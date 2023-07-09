@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Manuscript;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RoleController;
@@ -12,6 +13,8 @@ use App\Http\Controllers\MyLibraryController;
 use App\Http\Controllers\CatalogHomeCotroller;
 use App\Http\Controllers\PublishHomeCotroller;
 use App\Http\Controllers\LibraryDiskController;
+use App\Http\Controllers\ManuscriptsController;
+use App\Http\Controllers\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +36,11 @@ Route::get('privacy-policies', function () {
     return view('privacy-policies', compact('counters'));
 })->name('privacy-policies');
 
+Route::get('faq', function () {
+    $counters =  WelcomeCotroller::counters();
+    return view('faq', compact('counters'));
+})->name('faq');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -42,8 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');    
     Route::resource('books', BookController::class);
+    Route::resource('manuscripts', ManuscriptsController::class);
+    Route::get('download/{id}', [ManuscriptsController::class, 'download'])->name('download');
     Route::get('/file-resize', [ResizeController::class, 'index']);
     Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');
+    Route::post('notifications/update', [NotificationsController::class, 'update'])->name('notifications.update');
 
     Route::get('my-library', [MyLibraryController::class, 'MyLibrary'])->name('my-library');
 

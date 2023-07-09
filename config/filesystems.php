@@ -61,6 +61,12 @@ return [
             'root' => storage_path('/app/library'),
             'visibility' => 'public',
         ],
+
+        'manuscripts' => [
+            'driver' => 'local',
+            'root' => storage_path('/app/manuscripts'),
+            'visibility' => 'private',
+        ],
     ],
 
     /*

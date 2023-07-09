@@ -1,39 +1,42 @@
 <?php
-    
+
 namespace App\Http\Controllers;
-    
+
 use Exception;
-use App\Models\User;
-use App\Models\Books;
 use App\Models\Categorie;
 use App\Models\BookStatus;
+use App\Models\Manuscript;
 use Illuminate\Support\Str;
+use App\Models\Notifications;
 use Illuminate\Http\Request;
 use App\Models\UserUploadImages;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ResizeController;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\BookController;
+use Psy\VersionUpdater\Downloader\CurlDownloader;
+use App\Http\Controllers\OperationServicesController;
 
-class bookController extends Controller
-{ 
+class ManuscriptsController extends Controller
+{
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         if (Auth::user()->roles[0]->name == 'autor') {
-            $books = Books::where('created_by', '=', Auth::user()->id)->paginate(5);
+            $books = Manuscript::where('created_by', '=', Auth::user()->id)->paginate(5);
             $metadata = $this->autor();
-            return view('books.index', compact('books', 'metadata'))
+            return view('manuscripts.index', compact('books', 'metadata'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
-            $books = Books::latest()->paginate(5);
+            $books = Manuscript::latest()->paginate(5);
             $categoria = Categorie::all();
             $metadata = [];
             for ($i=0; $i < count($books); $i++) { 
-                $book = Books::find($books[$i]['id']);
+                $book = Manuscript::find($books[$i]['id']);
                 $autor = User::find($books[$i]['autor']);
                 $status = BookStatus::find($books[$i]['status']);
                 $categoria = Categorie::find($books[$i]['categorie']);
@@ -47,15 +50,13 @@ class bookController extends Controller
                 ];
                 array_push($metadata, $data);
             }
-            return view('books.index', compact('books', 'metadata'))
+            return view('manuscripts.index', compact('books', 'metadata'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         }
     }
-    
+
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -71,14 +72,11 @@ class bookController extends Controller
             array_push($autores, $datos);
         }
         
-        return view('books.create', compact('autores'))->with('categoria', $categoria);
+         return view('manuscripts.create', compact('autores'))->with('categoria', $categoria);
     }
-    
+
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -86,27 +84,25 @@ class bookController extends Controller
             if (isset($request->action)) {
                 switch ($request->action) {
                     case 'change_status':
-                        $change = Books::find($request->book_id);
+                        $change = Manuscript::find($request->book_id);
                         $change->status = $request->status;
                         $change->save();
+
+                        $notification = [
+                            "to_id" => $change->created_by,
+                            "data" => json_encode([
+                                "titulo" => "Cambio de estatus",
+                                "detalle" => "Su manuscrito $change->name, ha cambiado de estatus",
+                                "metadata" => [
+                                ]
+                            ]),
+                            'created_by' => Auth::user()->id
+                        ];
+                        Notifications::create($notification);
                         break;
 
-                    case 'update_book':
-                        $data = [
-                            'name' => $request->name, 
-                            'autor' => $request->autor,
-                            'coautores' => $request->coautores,
-                            'detail' => $request->detail,
-                            'publish_date' => $request->publish_date,
-                            'isbn' => $request->isbn,
-                            'price' => $request->price,
-                            'discount' => $request->discount,
-                            'categorie' => $request->categorie
-                        ];
-                        $save = Books::where('id', '=', $request->book_id)->update($data);
-                        if ($request->portadaFile) {
-                            ResizeController::resizeImage($request, $request->book_id);
-                        }
+                    case 'update_manuscript':
+                        $this->update($request);
                         break;
                     
                     default:
@@ -122,143 +118,113 @@ class bookController extends Controller
                     'autor' => 'required',
                 ]);
                 
-                $uploadBook = $request->file('bookFile')->store('library');
+                $uploadBook = $request->file('bookFile')->store('manuscripts');
 
-                $fileBook = explode("/", $uploadBook);
-
-                $save = Books::create($request->all());
+                $save = Manuscript::create($request->all());
                 
-                $thisbook = Books::find($save->id);
-                $thisbook->slug = Str::slug($request->name, '-') . "-" . $save->id;
+                $thisbook = Manuscript::find($save->id);
                 $thisbook->file_path = $uploadBook;
                 $thisbook->save();
-            
-                if ($request->portadaFile) {
-                    ResizeController::resizeImage($request, $save->id);
-                }
             }
         } catch (Exception $e) {
             logger($e);
         }
-        return redirect('books')->with('success','book created successfully.');
+        return redirect('manuscripts')->with('success','Manuscripts created successfully.');
     }
-    
+
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(Books $book)
+    public function show(string $book)
     {
-        $thisbook = Books::find($book->id);
+        $thisbook = Manuscript::find($book);
         $allstatus = BookStatus::all();
-        $autor = User::find($thisbook->autor);
         $status = BookStatus::find($thisbook->status);
         $categoria = Categorie::find($thisbook->categorie);
-        $cover = UserUploadImages::where('book_id', $thisbook->id)->get();
-        count($cover) >= 1 ? $portada = $cover[0]['image_name'] : $portada = NULL;
         $thebook = [
             'book_id' => $thisbook->id,
-            'book_slug' => $thisbook->slug,
             'book_name' => $thisbook->name,
             'autor' => $thisbook->autor,
-            'year' => date('Y', strtotime($thisbook->publish_date)),
             'status' => $status->name,
-            'price' => $thisbook->price,
-            'discount' => $thisbook->discount,
             'categoria' => $categoria->name,
             'detalle' => $thisbook->detail,
-            'image_name' => $portada,
             'file' => $thisbook->file_path,
             'allstatus' => $allstatus
         ];
-        return view('books.show')->with('book', $thebook);
+        return view('manuscripts.show')->with('book', $thebook);
     }
-    
+
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function edit(Books $book)
+    public function edit(string $id)
     {
-        $thisbook = Books::find($book->id);
+        $thisbook = Manuscript::find($id);
         $allstatus = BookStatus::all();
         $status = BookStatus::find($thisbook->status);
         $categoria = Categorie::find($thisbook->categorie);
         $categorias = Categorie::all();
-        $cover = UserUploadImages::where('book_id', $thisbook->id)->get();
-        count($cover) >= 1 ? $portada = $cover[0]['image_name'] : $portada = NULL;
         $thebook = [
             'book_id' => $thisbook->id,
             'book_slug' => $thisbook->slug,
             'book_name' => $thisbook->name,
             'autor' => $thisbook->autor,
             'coautores' => $thisbook->coautores,
-            'date' => date('Y-m-d', strtotime($thisbook->publish_date)),
             'status' => $status->name,
-            'price' => $thisbook->price,
-            'discount' => $thisbook->discount,
             'categoria_name' => $categoria->name,
             'categoria' => $thisbook->categorie,
             'detalle' => $thisbook->detail,
             'isbn' => $thisbook->isbn,
-            'image_name' => $portada,
             'file' => $thisbook->file_path,
             'allstatus' => $allstatus
         ];
-        return view('books.edit')->with(['book' => $thebook, 'categorias' => $categorias]);
-    }
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Books $book)
-    {
-        /* request()->validate([
-            'status' => 'required',
-            'action' => 'required',
-        ]); */
         
-        dd($request);
-        
-        if (isset($request->action)) {
-            dd('Hay accion');
-        } else {
-            request()->validate([
-                'name' => 'required',
-                'detail' => 'required',
-            ]);
-            $book->update($request->all());
-        }
-        return view('books.index')->with('success','Book updated successfully');
-    }
-    
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Books $book)
-    {
-        $book->delete();
-    
-        return redirect('books')->with('success','Book deleted successfully');
+        return view('manuscripts.edit')->with(['book' => $thebook, 'categorias' => $categorias]);
     }
 
     /**
-     * FUNCIONES PERSONALIZADAS
+     * Update the specified resource in storage.
      */
+    public function update(Request $request)
+    {
+        $data = [
+            'name' => $request->name, 
+            'autor' => $request->autor,
+            'coautores' => $request->coautores,
+            'detail' => $request->detail,
+            'isbn' => $request->isbn,
+            'categorie' => $request->categorie
+        ];
+        $save = Manuscript::where('id', '=', $request->book_id)->update($data);
+
+        $notification = [
+            "to_id" => Auth::user()->id,
+            "data" => json_encode([
+                "titulo" => "Manuscrito actualizado",
+                "detalle" => "Se ha actualizado su manuscrito $request->name",
+                "metadata" => [
+                    "m_id" => $request->book_id
+                ]
+            ]),
+            'created_by' => Auth::user()->id
+        ];
+        Notifications::create($notification);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
 
     public function autor()
     {
-        $books = Books::where('autor', '=', Auth::user()->name)->paginate(5);
+        $books = Manuscript::where('autor', '=', Auth::user()->name)->paginate(5);
         $metadata = [];
         for ($i=0; $i < count($books); $i++) { 
-            $book = Books::find($books[$i]['id']);
+            $book = Manuscript::find($books[$i]['id']);
             $autor = User::find($books[$i]['autor']);
             $status = BookStatus::find($books[$i]['status']);
             $categoria = Categorie::find($books[$i]['categorie']);
@@ -275,4 +241,11 @@ class bookController extends Controller
         return $metadata;
     }
 
+    public function download($id)
+    {
+        $thisbook = Manuscript::find($id);
+        //dd($thisbook);
+        $file = $thisbook->file_path;
+        return Storage::download($file);
+    }
 }

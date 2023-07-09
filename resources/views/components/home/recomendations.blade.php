@@ -10,13 +10,13 @@
             <div class="swiper-wrapper">
             @foreach ($booksRecomendations as $book)
                 <div class="swiper-slide">
-                    <a href="{{ route('detail', $book['book_slug']) }}">
+                    <a href="{{ route('detail', $book['slug']) }}">
                     <div class="books-card style-1 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="tp-media">
                             <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">									
                         </div>
                         <div class="tp-content">
-                            <h4 class="title">{{ $book['book_name'] }}</h4>
+                            <h4 class="title">{{ $book['name'] }}</h4>
                             @if ($book['price'] == "0.00")
                                 <span class="price">GRATIS</span>
                             @else
@@ -25,14 +25,14 @@
                             
                             @if ($book['price'] == "0.00")
                                 @auth
-                                    <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer Gratis</a>
+                                    <a class="btn btn-primary btnhover" href="{{ asset($book['file_path']) }}" target="_BLANK">Leer Gratis</a>
                                 @else
                                     <a class="btn btn-primary btnhover" href="login">Descargar</a>
                                 @endauth
                             @else
                                 @auth
                                     @if ($book['owner'])
-                                        <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer en mi Biblioteca</a>
+                                        <a class="btn btn-primary btnhover" href="{{ asset($book['file_path']) }}" target="_BLANK">Leer en mi Biblioteca</a>
                                     @else
                                         <x-home.paypal-button :data="$book" /> 
                                         @if ($book['discount'])
@@ -50,7 +50,7 @@
                             
                             {{-- @if ($book['price'] == "0.00")
                                 @auth
-                                    <a class="btn btn-primary btnhover" href="storage/books/{{ $book['book_file'] }}" target="_BLANK">Descargar</a>
+                                    <a class="btn btn-primary btnhover" href="storage/books/{{ $book['file'] }}" target="_BLANK">Descargar</a>
                                 @else
                                     <a class="btn btn-primary btnhover" href="login">Descargar</a>
                                 @endauth

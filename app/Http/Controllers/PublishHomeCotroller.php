@@ -10,6 +10,8 @@ class PublishHomeCotroller extends Controller
     public function index() {
        
         $counters =  WelcomeCotroller::counters();
-        return view('publish', compact('counters'));
+        $notifications = OperationServicesController::Notifications();
+
+        return view('publish', compact('counters', 'notifications'));
     }
 }

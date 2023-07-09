@@ -71,7 +71,7 @@
                                     @auth
                                         <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer Gratis</a>
                                     @else
-                                        <a class="btn btn-primary btnhover" href="login">Descargar</a>
+                                        <a class="btn btn-primary btnhover" href="{{ route('login') }}">Descargar</a>
                                     @endauth
                                 @else
                                     @auth
@@ -81,7 +81,7 @@
                                             <x-home.paypal-button :data="$book" /> 
                                         @endif
                                     @else
-                                        <a class="btn btn-primary btnhover" href="login"><span class="mr-2">Comprar ${{ $book['sale'] }} </span>
+                                        <a class="btn btn-primary btnhover" href="{{ route('login') }}"><span class="mr-2">Comprar ${{ $book['sale'] }} </span>
                                             @if ($book['discount'])
                                                 <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
                                             @endif
