@@ -11,7 +11,7 @@
             </a>
         </li>
     </ul>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" id="form">
         @csrf
 
         <!-- Name -->
@@ -76,15 +76,29 @@
                 </li>
             </ul>
         </div>
+        <div class="mt-4 mb-4">
+            <div class="captcha">
+                <span class="mx-auto">{!! captcha_img() !!}</span>
+            </div>
+        </div>
+        <div class="mb-4">
+            <input id="captcha" type="text" class="block mt-1 w-full" placeholder="Escriba lo que ve" name="captcha">
+        </div>
+        @error('captcha')
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">Captcha inválido</div>
+        @enderror
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                 {{ __('Ya estoy registrado') }}
             </a>
 
-            <x-primary-button class="ml-4">
+            <x-primary-button 
+                
+                class="ml-4">
                 {{ __('Registrar') }}
             </x-primary-button>
+            
         </div>
     </form>
 </x-guest-layout>

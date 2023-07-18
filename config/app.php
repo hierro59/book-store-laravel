@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         //Spatie\Html\Elements\Form::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
         
     ])->toArray(),
 
@@ -188,7 +189,9 @@ return [
         // 'Example' => App\Facades\Example::class,
         //'Form'      => Spatie\Html\Elements\Form::class,
         //'Html'      => Collective\Html\HtmlFacade::class,
-        'Image' => 'Intervention\Image\Facades\Image'
+        'Image' => 'Intervention\Image\Facades\Image',
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ])->toArray(),
+
 
 ];

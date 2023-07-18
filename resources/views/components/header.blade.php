@@ -143,7 +143,17 @@
           aria-labelledby="dropdownMenuButton1"
           data-te-dropdown-menu-ref>
           <!-- First dropdown menu items -->
-          
+          @if ($notifications['count'] == 0)
+          <li>
+            <a
+              class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
+              href="#"
+              data-te-dropdown-item-ref
+              >
+              <b>Sin notificaciones</b>
+            </a>
+          </li>
+          @else
           @foreach ($notifications['last'] as $news)
           <li>
             <a
@@ -163,6 +173,7 @@
           </li>
           <hr>
           @endforeach
+          @endif
         </ul>
       <form action="{{ route('notifications.update') }}" method="POST" id="notifications">
         @csrf

@@ -15,6 +15,7 @@ use App\Http\Controllers\PublishHomeCotroller;
 use App\Http\Controllers\LibraryDiskController;
 use App\Http\Controllers\ManuscriptsController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\CaptchaValidationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,5 +76,12 @@ Route::group(['middleware' => ['role:super-admin']], function () {
     Route::resource('roles', RoleController::class);
     
 });
+
+
+/* CAPTCHA */
+Route::get('contact-form-captcha', [CaptchaValidationController::class, 'index']);
+Route::post('captcha-validation', [CaptchaValidationController::class, 'capthcaFormValidate']);
+Route::get('reload-captcha', [CaptchaValidationController::class, 'reloadCaptcha'])->name('reload-captcha');
+
 
 require __DIR__.'/auth.php';
