@@ -11,7 +11,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\UserUploadImages;
 use Illuminate\Support\Facades\DB;
+use App\Mail\ManuscriptStatusChange;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ResizeController;
 
 class bookController extends Controller
@@ -89,6 +91,7 @@ class bookController extends Controller
                         $change = Books::find($request->book_id);
                         $change->status = $request->status;
                         $change->save();
+                        
                         break;
 
                     case 'update_book':

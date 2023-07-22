@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OperationServicesController;
 use App\Models\Manuscript;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
@@ -32,14 +33,17 @@ Route::get('/', [WelcomeCotroller::class, 'index'])->name('welcome');
 Route::get('catalog', [CatalogHomeCotroller::class, 'index'])->name('catalog');
 Route::get('detail/{book}', [CatalogHomeCotroller::class, 'detail'])->name('detail');
 Route::get('publish', [PublishHomeCotroller::class, 'index'])->name('publish');
+
 Route::get('privacy-policies', function () {
     $counters =  WelcomeCotroller::counters();
-    return view('privacy-policies', compact('counters'));
+    $notifications = OperationServicesController::Notifications();
+    return view('privacy-policies', compact('counters', 'notifications'));
 })->name('privacy-policies');
 
 Route::get('faq', function () {
     $counters =  WelcomeCotroller::counters();
-    return view('faq', compact('counters'));
+    $notifications = OperationServicesController::Notifications();
+    return view('faq', compact('counters', 'notifications'));
 })->name('faq');
 
 Route::get('/dashboard', function () {

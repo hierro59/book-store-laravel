@@ -24,6 +24,7 @@
                             <li><a href="{{ route('welcome') }}">Acerca de nosotros</a></li>
                             <li><a href="{{ route('publish') }}">Publicar una obra</a></li>
                             <li><a href="{{ route('privacy-policies') }}">Politica y privacidad</a></li>
+                            <li><a href="{{ route('faq') }}">Preguntas frecuentes</a></li>
                         </ul>
                     </div>
                 </div>

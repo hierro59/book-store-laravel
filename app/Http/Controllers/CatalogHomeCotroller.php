@@ -20,7 +20,7 @@ class CatalogHomeCotroller extends Controller
     public function index(Request $request)
     {
         
-        $getbooks = Books::where('status', '=', '1')->paginate(20);
+        $getbooks = Books::where('status', '=', '1')->inRandomOrder()->paginate(20);
         isset(Auth::user()->id) ? $user_id = Auth::user()->id : $user_id = NULL;
         $books = [];
         for ($i=0; $i < count($getbooks); $i++) { 

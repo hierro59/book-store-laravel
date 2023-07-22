@@ -24,7 +24,7 @@ class WelcomeCotroller extends Controller
         $offers = $this->offers();*/
         $counters = $this->counters();
 
-        $booksRecomendations = Books::where('status', '=', '1')->paginate(10);
+        $booksRecomendations = Books::where('status', '=', '1')->inRandomOrder()->paginate(10);
         $booksRecomendations = $this->booksData($booksRecomendations);
 
         $booksSales = Books::where('status', '=', '1')->where('price', '>', '0.00')->paginate(10);

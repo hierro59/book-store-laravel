@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Categorie;
+use App\Mail\GeneralEmail;
 use App\Models\BookStatus;
 use App\Models\Manuscript;
 use Illuminate\Support\Str;
-use App\Models\Notifications;
 use Illuminate\Http\Request;
+use App\Models\Notifications;
 use App\Models\UserUploadImages;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\ManuscriptStatusChange;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Expr\Cast\Object_;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BookController;
 use Psy\VersionUpdater\Downloader\CurlDownloader;
@@ -99,6 +103,10 @@ class ManuscriptsController extends Controller
                             'created_by' => Auth::user()->id
                         ];
                         Notifications::create($notification);
+                        
+                        $objData = new \stdClass();
+                        $objData->name = 'Felix Leon';
+                        Mail::to('hierro59@gmail.com')->send(new ManuscriptStatusChange($objData));
                         break;
 
                     case 'update_manuscript':
@@ -125,6 +133,14 @@ class ManuscriptsController extends Controller
                 $thisbook = Manuscript::find($save->id);
                 $thisbook->file_path = $uploadBook;
                 $thisbook->save();
+
+                $objData = new \stdClass();
+                $objData->nombre = Auth::user()->name;
+                $objData->subject = "¡Enhorabuena! Recibimos tu manuscrito";
+                $objData->mensaje = "¡Felicidades! Hemos recibido tu manuscrito. 
+                Una vez que nuestro Consejo Editor lo revise, te daremos respuesta. 
+                Para seguir el proceso de tu solicitud, solo debesingresar a nuestra página web textosprohibidos.shop";
+                Mail::to(Auth::user()->email)->send(new GeneralEmail($objData));
             }
         } catch (Exception $e) {
             logger($e);
