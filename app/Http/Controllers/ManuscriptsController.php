@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ManuscriptProgress;
 use Exception;
 use App\Models\Categorie;
 use App\Mail\GeneralEmail;
@@ -36,7 +37,7 @@ class ManuscriptsController extends Controller
             return view('manuscripts.index', compact('books', 'metadata'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         } else {
-            $books = Manuscript::latest()->paginate(5);
+            $books = Manuscript::where("deleted", "=", NULL)->latest()->paginate(5);
             $categoria = Categorie::all();
             $metadata = [];
             for ($i=0; $i < count($books); $i++) { 
@@ -104,9 +105,53 @@ class ManuscriptsController extends Controller
                         ];
                         Notifications::create($notification);
                         
+                        $status = BookStatus::find($request->status);
+                       
+                        switch ($status->name) {
+                            case 'Revision':
+                                $progress = [
+                                    "manuscript_id" => $request->book_id,
+                                    "title" => "Manuscripto en Revision",
+                                    "description" => "Su manuscripto esta siendo estudiado por nuestro Consejo Editor."
+                                ];
+                                ManuscriptProgress::create($progress);
+                                break;
+
+                            case 'Activo':
+                                $progress = [
+                                    "manuscript_id" => $request->book_id,
+                                    "title" => "Manuscripto Aceptado",
+                                    "description" => "Felicidades. Su manuscripto a sido aceptado para el proceso de edición."
+                                ];
+                                ManuscriptProgress::create($progress);
+                                break;
+
+                            case 'Rechazado':
+                                $progress = [
+                                    "manuscript_id" => $request->book_id,
+                                    "title" => "Manuscripto Rechazado",
+                                    "description" => "Lo siento. Su manuscripto a sido Rechazado para el proceso de edición. lo invitamos a comunicarse con el Consejo Editor para más detalles."
+                                ];
+                                ManuscriptProgress::create($progress);
+                                break;
+                            default:
+                                $progress = [
+                                    "manuscript_id" => $request->book_id,
+                                    "title" => "Cambio de status",
+                                    "description" => "Cambio de status de su manuscrito"
+                                ];
+                                ManuscriptProgress::create($progress);
+                                break;
+                        }
+
+                        $user = User::find($change->created_by);
+
                         $objData = new \stdClass();
-                        $objData->name = 'Felix Leon';
-                        Mail::to('hierro59@gmail.com')->send(new ManuscriptStatusChange($objData));
+                        $objData->nombre = $user->name;
+                        $objData->subject = "Cambio de estatus de su manuscrito";
+                        $objData->mensaje = "Ha cambiado el estatus de su manuscrito. 
+                        Para seguir el proceso de su solicitud, solo debe ingresar a nuestra página web textosprohibidos.shop";
+                        Mail::to($user->email)->send(new GeneralEmail($objData));
                         break;
 
                     case 'update_manuscript':
@@ -114,7 +159,7 @@ class ManuscriptsController extends Controller
                         break;
                     
                     default:
-                        dd("estamos en default");
+                        dd("estamos en default de camio de estatus de manuscrito");
                         break;
                 }
             } else {
@@ -134,12 +179,19 @@ class ManuscriptsController extends Controller
                 $thisbook->file_path = $uploadBook;
                 $thisbook->save();
 
+                $progress = [
+                    "manuscript_id" => $save->id,
+                    "title" => "Manuscripto subido",
+                    "description" => "Usted ha enviado un manuscrito para que el Consejo Editor estudie la posibilidad de publicar en nuestra plataforma."
+                ];
+                ManuscriptProgress::create($progress);
+
                 $objData = new \stdClass();
                 $objData->nombre = Auth::user()->name;
-                $objData->subject = "¡Enhorabuena! Recibimos tu manuscrito";
-                $objData->mensaje = "¡Felicidades! Hemos recibido tu manuscrito. 
-                Una vez que nuestro Consejo Editor lo revise, te daremos respuesta. 
-                Para seguir el proceso de tu solicitud, solo debesingresar a nuestra página web textosprohibidos.shop";
+                $objData->subject = "¡Enhorabuena! Recibimos su manuscrito";
+                $objData->mensaje = "¡Felicidades! Hemos recibido su manuscrito. 
+                Una vez que nuestro Consejo Editor lo revise, le daremos respuesta. 
+                Para seguir el proceso de su solicitud, solo debe ingresar a nuestra página web textosprohibidos.shop";
                 Mail::to(Auth::user()->email)->send(new GeneralEmail($objData));
             }
         } catch (Exception $e) {
@@ -157,6 +209,7 @@ class ManuscriptsController extends Controller
         $allstatus = BookStatus::all();
         $status = BookStatus::find($thisbook->status);
         $categoria = Categorie::find($thisbook->categorie);
+        $progress = ManuscriptProgress::where("manuscript_id", "=", $book)->orderBy('created_at', 'DESC')->get();
         $thebook = [
             'book_id' => $thisbook->id,
             'book_name' => $thisbook->name,
@@ -167,7 +220,7 @@ class ManuscriptsController extends Controller
             'file' => $thisbook->file_path,
             'allstatus' => $allstatus
         ];
-        return view('manuscripts.show')->with('book', $thebook);
+        return view('manuscripts.show', compact('progress'))->with('book', $thebook);
     }
 
     /**
@@ -230,9 +283,15 @@ class ManuscriptsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $userId = Auth::user()->id;
+        logger("El usuario $userId ha borrado el manuscrito con el id $id");
+        $manuscript = Manuscript::find($id);
+        $manuscript->deleted = now();
+        $manuscript->status = 3;
+        $manuscript->save();
+        return redirect('manuscripts')->with('success','Book deleted successfully');
     }
 
     public function autor()

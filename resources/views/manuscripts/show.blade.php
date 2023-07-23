@@ -85,65 +85,27 @@
                 </div>
                 <div class="col-span-2 p-4 rounded-e-lg">
                     <ol class="border-l-2 border-primary dark:border-primary-500">
-                        <!--First item-->
+                     
+                      @foreach ($progress as $key => $p)
                         <li>
                           <div class="flex-start flex items-center">
                             <div
                               class="-ml-[9px] -mt-2 mr-3 flex h-4 w-4 items-center justify-center rounded-full bg-primary dark:bg-primary-500"></div>
-                            <h4 class="-mt-2 text-xl font-semibold">Manuscrito Subido</h4>
+                            <h4 class="-mt-2 text-xl font-semibold">
+                              {{ $p->title }}
+                            </h4>
                           </div>
                           <div class="mb-6 ml-6 pb-6">
-                            <a
-                              href="#!"
-                              class="text-sm text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
-                              >4 February, 2022</a
-                            >
+                          <small class="text-sm text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600">
+                              {{ $p->created_at }}
+                          </small>
                             <p class="mb-4 mt-2 text-neutral-600 dark:text-neutral-300">
-                              Usted ha enviado un manuscrito para que el Consejo Editor estudie la posibilidad de publicar en nuestra plataforma.
+                              {{ $p->description }}
                             </p>
                             
                           </div>
                         </li>
-                      
-                        <!--Second item-->
-                        <li>
-                          <div class="flex-start flex items-center">
-                            <div
-                              class="-ml-[9px] -mt-2 mr-3 flex h-4 w-4 items-center justify-center rounded-full bg-primary dark:bg-primary-500"></div>
-                            <h4 class="-mt-2 text-xl font-semibold">Manuscrito en revision</h4>
-                          </div>
-                          <div class="mb-6 ml-6 pb-6">
-                            <a
-                              href="#!"
-                              class="text-sm text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
-                              >12 January, 2022</a
-                            >
-                            <p class="mb-4 mt-2 text-neutral-600 dark:text-neutral-200">
-                              En Consejo Editor recibio su manuscrito.
-                            </p>
-                           
-                          </div>
-                        </li>
-                      
-                        <!--Third item-->
-                        <li>
-                          <div class="flex-start flex items-center">
-                            <div
-                              class="-ml-[9px] -mt-2 mr-3 flex h-4 w-4 items-center justify-center rounded-full bg-primary dark:bg-primary-500"></div>
-                            <h4 class="-mt-2 text-xl font-semibold">Manuscrito aceptado</h4>
-                          </div>
-                          <div class="mb-6 ml-6 pb-6">
-                            <a
-                              href="#!"
-                              class="text-sm text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
-                              >27 December, 2021</a
-                            >
-                            <p class="mb-4 mt-2 text-neutral-600 dark:text-neutral-200">
-                              El Consejo Editor acepto su manuscrito. Estamos preparando todo para editarlo.
-                            </p>
-                           
-                          </div>
-                        </li>
+                      @endforeach
                       </ol>
                 </div>
             </div>

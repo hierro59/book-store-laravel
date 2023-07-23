@@ -127,8 +127,6 @@ class bookController extends Controller
                 
                 $uploadBook = $request->file('bookFile')->store('library');
 
-                $fileBook = explode("/", $uploadBook);
-
                 $save = Books::create($request->all());
                 
                 $thisbook = Books::find($save->id);
