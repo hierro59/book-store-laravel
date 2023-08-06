@@ -45,19 +45,19 @@
     </script>
     <!-- Metas OG-->
     @if (Route::currentRouteName() == 'catalog')
-        <meta property="og:title" content="Nuestro catálogo · Textos Prohibidos" />
+        <meta property="og:title" content="Textos Prohibidos · Nuestro catálogo" />
         <meta property="og:description" content="Descrubre la magia de los textos que desafían las reglas." />
         <meta property="og:image" content="https://textosprohibidos.shop/assets/images/background/bgLibrary.webp" />
     @elseif (Route::currentRouteName() == 'autor')
-        <meta property="og:title" content="{{ $autor->name }}" />
+        <meta property="og:title" content="Textos Prohibidos · {{ $autor->name }}" />
         <meta property="og:description" content="{{ $autor->biography }}" />
         <meta property="og:image" content="{{ asset($avatar) }}" />
     @elseif (Route::currentRouteName() == 'detail')
-        <meta property="og:title" content="{{ $data['book_name'] }} · {{ $data['autor'] }}" />
+        <meta property="og:title" content="Textos Prohibidos · {{ $data['book_name'] }} · {{ $data['autor'] }}" />
         <meta property="og:description" content="{{ $data['book_detail'] }}" />
         <meta property="og:image" content="{{ asset('thumbnail/covers/' . $data['portada']) }}" />
     @else
-        <meta property="og:title" content="Autores independientes · Textos Prohibidos" />
+        <meta property="og:title" content="Textos Prohibidos · Autores independientes" />
         <meta property="og:description" content="Descrubre la magia de los textos que desafían las reglas." />
         <meta property="og:image" content="https://textosprohibidos.shop/assets/images/background/bgLibrary.webp" />
     @endif
