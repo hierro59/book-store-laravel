@@ -2,14 +2,6 @@
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="keywords" content="">
-    <meta name="author" content="Quantlas.tech">
-    <meta name="robots" content="">
-    <meta name="description" content="">
-    <meta property="og:title" content="">
-    <meta property="og:description" content="">
-    <meta property="og:image" content="">
-    <meta name="format-detection" content="telephone=no">
 
     <!-- FAVICONS ICON -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/icons/favicon.png') }}">
@@ -51,7 +43,7 @@
             },
         };
     </script>
-    <!-- Metas -->
+    <!-- Metas OG-->
     @if (Route::currentRouteName() == 'catalog')
         <meta property="og:title" content="Nuestro catálogo · Textos Prohibidos" />
         <meta property="og:description" content="Descrubre la magia de los textos que desafían las reglas." />
