@@ -9,7 +9,7 @@
                     </div>
                     <div class="tp-content">
                         <div class="tp-header">
-                            <h1 class="title">{{ $book['book_name'] }}</h1>
+                            <h1 class="text-5xl font-bold">{{ $book['book_name'] }}</h1>
                             <div class="shop-item-rating">
                                 {{-- <div class="d-lg-flex d-sm-inline-flex d-flex align-items-center">
                                     <ul class="tp-rating">

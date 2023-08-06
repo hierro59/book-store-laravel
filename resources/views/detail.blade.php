@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<x-head />
+<x-head :data="$data" />
 
 <body>
     <div class="page-wraper">
