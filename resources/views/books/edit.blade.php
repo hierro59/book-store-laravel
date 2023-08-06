@@ -133,7 +133,7 @@
                     <input type="text" name="book_id" value="{{ $book['book_id'] }}" hidden>
                     <input type="text" name="action" value="update_book" hidden>
 
-                    <input type="text" name="type" value="portada" hidden>
+                    <input type="text" name="type" value="portadaFile" hidden>
                     <div class="mt-6 flex justify-end">
                         <x-danger-button>
                             <a href="{{ route('books.index') }}">Cancel</a>
