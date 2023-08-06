@@ -51,8 +51,6 @@
             },
         };
     </script>
-
-
     <!-- Metas -->
     @if (Route::currentRouteName() == 'catalog')
         <meta property="og:title" content="Nuestro catálogo · Textos Prohibidos" />
