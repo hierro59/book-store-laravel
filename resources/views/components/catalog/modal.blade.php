@@ -7,44 +7,28 @@
 </style>
 
 <!-- Modal -->
-<div
-  data-te-modal-init
-  class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
-  id="Modal{{ $book['book_id'] }}"
-  tabindex="-1"
-  aria-labelledby="exampleModalFullscreenLabel"
-  aria-hidden="true">
-    <div
-        data-te-modal-dialog-ref
+<div data-te-modal-init
+    class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+    id="Modal{{ $book['book_id'] }}" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+    <div data-te-modal-dialog-ref
         class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[0px]:m-0 min-[0px]:h-full min-[0px]:max-w-none">
         <div
-        class="pointer-events-auto relative flex w-full flex-col rounded-md bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600 min-[0px]:h-full min-[0px]:rounded-none min-[0px]:border-0">
+            class="pointer-events-auto relative flex w-full flex-col rounded-md bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600 min-[0px]:h-full min-[0px]:rounded-none min-[0px]:border-0">
             <div
                 class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50 min-[0px]:rounded-none">
                 <!-- Modal title -->
-                <h5
-                class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
-                id="exampleModalFullscreenLabel">
-                {{ $book['book_name'] }}
+                <h5 class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+                    id="exampleModalFullscreenLabel">
+                    {{ $book['book_name'] }}
                 </h5>
                 <!-- Close button -->
-                <button
-                type="button"
-                class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                data-te-modal-dismiss
-                aria-label="Close">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="h-6 w-6">
-                    <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <button type="button"
+                    class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                    data-te-modal-dismiss aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="h-6 w-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </button>
             </div>
 
@@ -96,9 +80,10 @@
                                                 <ul class="book-info">
                                                     <li>
                                                         <div class="writer-info">
-                                                            <img src="{{ asset('assets/images/profile2.jpg') }}" alt="book">
+
+                                                            <img src="{{ asset($book['avatar']) }}" alt="book">
                                                             <div>
-                                                                <span>Writen by</span>{{ $book['autor'] }}
+                                                                <span>Escrito por</span>{{ $book['autor'] }}
                                                             </div>
                                                         </div>
                                                     </li>
@@ -108,7 +93,7 @@
                                             </div>
                                             <p class="text-1">{{ $book['book_detail'] }}</p>
                                             <div class="book-footer">
-                                                @if ($book['price'] == "0.00")
+                                                @if ($book['price'] == '0.00')
                                                     <div class="price">
                                                         <h5>GRATIS</h5>
                                                     </div>
@@ -121,28 +106,34 @@
                                                     </div>
                                                 @endif
                                                 <div class="product-num">
-                                                @if ($book['price'] == "0.00")
-                                                    @auth
-                                                        <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer Gratis</a>
-                                                    @else
-                                                        <a class="btn btn-primary btnhover" href="login">Descargar</a>
-                                                    @endauth
-                                                @else
-                                                    @auth
-                                                        @if ($book['owner'])
-                                                            <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer en mi Biblioteca</a>
+                                                    @if ($book['price'] == '0.00')
+                                                        @auth
+                                                            <a class="btn btn-primary btnhover"
+                                                                href="{{ asset($book['book_file']) }}" target="_BLANK">Leer
+                                                                Gratis</a>
                                                         @else
-                                                            <x-home.paypal-button :data="$book" /> 
-                                                        @endif
+                                                            <a class="btn btn-primary btnhover" href="login">Descargar</a>
+                                                        @endauth
                                                     @else
-                                                        <a class="btn btn-primary btnhover" href="login"><span class="mr-2">Comprar ${{ $book['sale'] }} </span>
-                                                            @if ($book['discount'])
-                                                                <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
+                                                        @auth
+                                                            @if ($book['owner'])
+                                                                <a class="btn btn-primary btnhover"
+                                                                    href="{{ asset($book['book_file']) }}"
+                                                                    target="_BLANK">Leer en mi Biblioteca</a>
+                                                            @else
+                                                                <x-home.paypal-button :data="$book" />
                                                             @endif
-                                                        </a>
-                                                    @endauth
-                                                @endif
-                                                
+                                                        @else
+                                                            <a class="btn btn-primary btnhover" href="login"><span
+                                                                    class="mr-2">Comprar ${{ $book['sale'] }} </span>
+                                                                @if ($book['discount'])
+                                                                    <span class="badge badge-danger">{{ $book['offer'] }}%
+                                                                        OFF</span>
+                                                                @endif
+                                                            </a>
+                                                        @endauth
+                                                    @endif
+
                                                     <div class="bookmark-btn style-1 d-none d-sm-block">
                                                         <input class="form-check-input" type="checkbox"
                                                             id="flexCheckDefault1">
@@ -157,7 +148,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <div class="row">
                             <div class="col-xl-8">
                                 <div class="product-description tabs-site-button">
@@ -203,7 +194,8 @@
                                                 <tr class="tags">
                                                     <th>Tags</th>
                                                     <td>
-                                                        <a href="javascript:void(0);" class="badge">{{ $book['categoria'] }}</a>
+                                                        <a href="javascript:void(0);"
+                                                            class="badge">{{ $book['categoria'] }}</a>
                                                         {{-- <a href="javascript:void(0);" class="badge">Aventura</a>
                                                         <a href="javascript:void(0);" class="badge">Supervivencia</a>
                                                         <a href="javascript:void(0);" class="badge">Biografía</a> --}}
@@ -211,7 +203,7 @@
                                                 </tr>
                                             </table>
                                         </div>
-            {{-- OPNIONES --}}
+                                        {{-- OPNIONES --}}
                                         <!-- <div id="developement-1" class="tab-pane">
                                             <div class="clear" id="comment-list">
                                                 <div class="post-comments comments-area style-1 clearfix">
@@ -341,10 +333,8 @@
                                                                 <p class="comment-form-email"><input id="email"
                                                                         required="required" placeholder="Email" name="email"
                                                                         type="email" value=""></p>
-                                                                <p class="comment-form-comment"><textarea id="comments"
-                                                                        placeholder="Type Comment Here"
-                                                                        class="form-control4" name="comment" cols="45"
-                                                                        rows="3" required="required"></textarea></p>
+                                                                <p class="comment-form-comment"><textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="comment" cols="45"
+                                                                    rows="3" required="required"></textarea></p>
                                                                 <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
                                                                     <button id="submit" type="submit"
                                                                         class="submit btn btn-primary filled">
@@ -369,17 +359,16 @@
 
 
 
-                
+
             </div>
 
             <!-- Modal footer -->
             <div
                 class="mt-auto flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50 min-[0px]:rounded-none">
-                <button
-                type="button"
-                class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                data-te-modal-dismiss>
-                Close
+                <button type="button"
+                    class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                    data-te-modal-dismiss>
+                    Close
                 </button>
             </div>
         </div>

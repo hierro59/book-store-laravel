@@ -1,4 +1,4 @@
-@props(['notifications'])
+@props(['notifications', 'avatar'])
 
 <!-- Main navigation container -->
 <nav
@@ -195,9 +195,9 @@
           aria-expanded="false">
           <!-- User avatar -->
           <img
-            src="{{ asset('assets/images/profile1.png') }}"
+            src="{{ asset($avatar) }}"
             class="rounded-full"
-            style="height: 25px; width: 25px"
+            style="height: 25px; width: 25px; color: grey"
             alt=""
             loading="lazy" />
         </a>

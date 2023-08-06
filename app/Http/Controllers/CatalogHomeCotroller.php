@@ -19,19 +19,22 @@ class CatalogHomeCotroller extends Controller
      */
     public function index(Request $request)
     {
-        
+        $avatarProfile = OperationServicesController::getAuthUserImageProfile('avatar');
         $getbooks = Books::where('status', '=', '1')->inRandomOrder()->paginate(20);
         isset(Auth::user()->id) ? $user_id = Auth::user()->id : $user_id = NULL;
         $books = [];
         for ($i=0; $i < count($getbooks); $i++) { 
             $book = Books::find($getbooks[$i]['id']);
-            $autor = User::find($getbooks[$i]['autor']);
+            $autor = User::where('id', '=', $getbooks[$i]['autor_id'])->get();
             $categoria = Categorie::find($getbooks[$i]['categorie']);
             $portada = UserUploadImages::where('book_id', '=', $getbooks[$i]['id'])->where('type', '=', 'portada')->latest('created_at')->get();
             $sale = WelcomeCotroller::calcularPrecioConDescuento($book->price, $book->discount);
             $MyLibrary = MyLibrary::where('user_id', '=', $user_id)->where('book_id', '=', $getbooks[$i]['id'])->get();
             count($MyLibrary) > 0 ? $owner = true : $owner = false;
             $year = date('Y', $book->year);
+            
+            $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($autor[0]['id']) ? $autor[0]['id'] : NULL));
+            
             $dataBanner = [
                 'book_id' => $book->id,
                 'book_slug' => $book->slug,
@@ -47,13 +50,16 @@ class CatalogHomeCotroller extends Controller
                 'price' => $book->price,
                 'discount' => ($book->discount > 0 ? $book->discount : NULL),
                 'sale' => ($book->discount > 0 ? $sale : $book->price),
-                'offer' => ($book->discount > 0 ? $book->discount : NULL)
+                'offer' => ($book->discount > 0 ? $book->discount : NULL),
+                'avatar' => $avatar
             ];
             array_push($books, $dataBanner);
+            
         }
+        //dd($books);
         $notifications = OperationServicesController::Notifications();
-
-        return view('catalog', compact('books', 'getbooks', 'notifications'))
+        
+        return view('catalog', compact('books', 'getbooks', 'notifications', 'avatarProfile'))
         ->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
@@ -64,7 +70,8 @@ class CatalogHomeCotroller extends Controller
         $books = [];
         for ($i=0; $i < count($getbooks); $i++) { 
             $bookFor = Books::find($getbooks[$i]['id']);
-            $autor = User::find($getbooks[$i]['autor']);
+            $autor = User::where('name', '=', $getbooks[$i]['autor'])->get();
+            $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($autor[0]['id']) ? $autor[0]['id'] : NULL));
             $categoria = Categorie::find($getbooks[$i]['categorie']);
             $portada = UserUploadImages::where('book_id', '=', $getbooks[$i]['id'])->where('type', '=', 'portada')->latest('created_at')->get();
             $saleFor = WelcomeCotroller::calcularPrecioConDescuento($bookFor->price, $bookFor->discount);
@@ -86,24 +93,28 @@ class CatalogHomeCotroller extends Controller
                 'price' => $bookFor->price,
                 'discount' => ($bookFor->discount > 0 ? $bookFor->discount : NULL),
                 'sale' => ($bookFor->discount > 0 ? $saleFor : $bookFor->price),
-                'offer' => ($bookFor->discount > 0 ? $bookFor->discount : NULL)
+                'offer' => ($bookFor->discount > 0 ? $bookFor->discount : NULL),
+                'avatar' => $avatar
             ];
             array_push($books, $dataBanner);
         }
         
-        $autor = User::find($book->autor);
+        $autor = User::where('id', '=', $book->autor_id)->get();
         $categoria = Categorie::find($book->categorie);
         $portada = UserUploadImages::where('book_id', '=', $book->id)->where('type', '=', 'portada')->latest('created_at')->get();
         $sale = WelcomeCotroller::calcularPrecioConDescuento($book->price, $book->discount);
         $year = date('Y', $book->year);
         $MyLibrary = MyLibrary::where('user_id', '=', $user_id)->where('book_id', '=', $book->id)->get();
         count($MyLibrary) > 0 ? $owner = true : $owner = false;
+        $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($autor[0]['id']) ? $autor[0]['id'] : NULL));
+        $avatarProfile = OperationServicesController::getAuthUserImageProfile('avatar');
         $data = [
             'book_id' => $book->id,
             'book_slug' => $book->slug,
             'book_name' => $book->name,
             'book_detail' => $book->detail,
             'autor' => $book->autor,
+            'autor_id' => (isset($autor[0]['id']) ? $autor[0]['id'] : NULL),
             'year' => $year,
             'isbn' => $book->isbn,
             'categoria' => $categoria->name,
@@ -113,12 +124,12 @@ class CatalogHomeCotroller extends Controller
             'price' => $book->price,
             'discount' => ($book->discount > 0 ? $book->discount : NULL),
             'sale' => ($book->discount > 0 ? $sale : $book->price),
-            'offer' => ($book->discount > 0 ? $book->discount : NULL)
-            
+            'offer' => ($book->discount > 0 ? $book->discount : NULL),
+            'avatar' => $avatar
         ];
 
         $notifications = OperationServicesController::Notifications();
-
-        return view('detail', compact('data', 'books', 'notifications'));
+        
+        return view('detail', compact('data', 'books', 'notifications', 'avatarProfile'));
     }
 }

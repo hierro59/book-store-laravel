@@ -35,18 +35,19 @@ class WelcomeCotroller extends Controller
 
         $offers = Books::where('status', '=', '1')->where('discount', '>', '0')->paginate(10);
         $offers = $this->booksData($offers);
-        
-        /* $notificactions = $this->notificactions(); */
 
         $notifications = OperationServicesController::Notifications();
 
+        $avatar = OperationServicesController::getAuthUserImageProfile('avatar');
+        
         return view('welcome', compact(
             'booksBanner', 
             'booksRecomendations', 
             'booksSales', 
             'offers',
             'counters',
-            'notifications'
+            'notifications',
+            'avatar'
             ));
     }
 
@@ -108,14 +109,14 @@ class WelcomeCotroller extends Controller
         return $precioConDescuento;
     }
 
-    public function booksData($books) 
+    static public function booksData($books) 
     {
         for ($i=0; $i < count($books); $i++) { 
             $owner = false;
             $book = Books::find($books[$i]['id']);
             $categoria = Categorie::find($books[$i]['categorie']);
             $portada = UserUploadImages::select('image_name')->where('book_id', '=', $books[$i]['id'])->where('type', '=', 'portada')->latest('created_at')->first();
-            $sale= $this->calcularPrecioConDescuento($book->price, $book->discount);
+            $sale= self::calcularPrecioConDescuento($book->price, $book->discount);
             $year = date('Y', $book->year);
             $books[$i]['year'] = $year;
             $books[$i]['categoria'] = $categoria->name;

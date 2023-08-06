@@ -117,7 +117,7 @@ class ManuscriptsController extends Controller
                                 ManuscriptProgress::create($progress);
                                 break;
 
-                            case 'Activo':
+                            case 'Aceptado':
                                 $progress = [
                                     "manuscript_id" => $request->book_id,
                                     "title" => "Manuscripto Aceptado",

@@ -16,25 +16,38 @@ class ResizeController extends Controller
     }
     public static function resizeImage(Request $request, $bookid = NULL)
     {
-        /* request()->validate([
-            'type' => 'required',
-            'file' => 'required|image|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
-        ]); */
-
-
-        $type = ($request->type == 'avatar' ? 'avatar' : 'portada');
-
         $user = Auth::user()->id;
         $code = bin2hex(random_bytes(10));
 
-        $image = $request->portadaFile;
+        switch ($request->type) {
+            case 'portadaFile':
+                $image = $request->portadaFile;
+                $type = "portada";
+                break;
+
+            case 'avatar':
+                $image = $request->avatar;
+                $type = "avatar";
+                break;
+
+            case 'portadaPerfil':
+                $image = $request->portadaPerfil;
+                $type = "portadaPerfil";
+                break;
+
+            default:
+                dd('default resize controller');
+                break;
+        }
         
-        $input['file'] = $type . '-' . $user . '-' . $code . '.' . $image->getClientOriginalExtension();
+        $input['file'] = $request->type . '-' . $user . '-' . $code . '.' . $image->getClientOriginalExtension();
 
         $destinationPath = public_path('/thumbnail/covers');
         $imgFile = Image::make($image->getRealPath());
-        if ($type == 'avatar') {
+        if ($request->type == 'avatar') {
             $imgFile->fit(400)->save($destinationPath . '/' . $input['file']);
+        } elseif ($request->type == 'portadaPerfil') {
+            $imgFile->fit(900, 200)->save($destinationPath . '/' . $input['file']);
         } else {
             $imgFile->fit(1600, 2500)->save($destinationPath . '/' . $input['file']);
         }

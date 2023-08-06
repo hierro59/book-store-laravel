@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notifications;
+use App\Models\SocialNetworks;
+use App\Models\UserUploadImages;
 use Illuminate\Support\Facades\Auth;
 
 class OperationServicesController extends Controller
@@ -46,5 +48,65 @@ class OperationServicesController extends Controller
         }
 
         return $notifications;
+    }
+
+    static function getAuthUserImageProfile($criterio) {
+        if (Auth::check()) {        
+            $image = UserUploadImages::where('type', '=', $criterio)
+            ->where('customer_id', '=', Auth::user()->id)
+            ->where('status', '=', 1)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        } else {
+            $image = false;
+        }
+
+        if ($image) {
+            $return = "thumbnail/covers/" . $image->image_name;
+        } else {
+            if ($criterio == 'portadaPerfil') {
+                $return = "assets/images/background/bgLibrary.webp";
+            } else {
+                $return = "assets/images/profile-default.svg";
+            }
+        }
+        return $return;
+    }
+
+    static function getPublicAutorImageProfile($criterio, $id) {
+            
+        $image = UserUploadImages::where('type', '=', $criterio)
+            ->where('customer_id', '=', $id)
+            ->where('status', '=', 1)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        
+        //dd($image);
+        if ($image) {
+            $return = "thumbnail/covers/" . $image->image_name;
+        } else {
+            if ($criterio == 'portadaPerfil') {
+                $return = "assets/images/background/bgLibrary.webp";
+            } else {
+                $return = "assets/images/profile-default.svg";
+            }
+        }
+        return $return;
+    }
+
+    static function getAutorNetwork($criterio, $id)
+    {
+        $getSN = SocialNetworks::where('user_id', '=', $id)
+                    ->where('sn_network', '=', $criterio)
+                    ->whereNull('deleted')
+                    ->get();
+
+        if (count($getSN) >= 1) {
+            $response = $getSN[0]['sn_url']; 
+        } else {
+            $response = NULL;
+        }
+        
+        return $response;
     }
 }

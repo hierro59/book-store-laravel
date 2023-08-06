@@ -15,7 +15,7 @@
 		</div> -->
 	
 		<!-- Header -->
-		<x-header :notifications="$notifications" />
+		<x-header :notifications="$notifications" :avatar="$avatar"/>
 		<!-- Header End -->
 		
 		<div class="page-content bg-white">

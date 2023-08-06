@@ -11,7 +11,7 @@ class PublishHomeCotroller extends Controller
        
         $counters =  WelcomeCotroller::counters();
         $notifications = OperationServicesController::Notifications();
-
-        return view('publish', compact('counters', 'notifications'));
+        $avatar = OperationServicesController::getAuthUserImageProfile('avatar');
+        return view('publish', compact('counters', 'notifications', 'avatar'));
     }
 }

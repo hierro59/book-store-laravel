@@ -6,13 +6,26 @@
                 <div class="col-xl-4 col-lg-12 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="widget widget_about">
                         <div class="footer-logo logo-white">
-                            <a href="{{ route('welcome') }}"><img src="{{ asset('assets/images/logo-white.svg') }}" alt=""></a> 
+                            <a href="{{ route('welcome') }}"><img src="{{ asset('assets/images/logo-white.svg') }}"
+                                    alt=""></a>
                         </div>
                         <div class="tp-social-icon style-1">
                             <ul>
-                                <li><a href="#" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                <li><a href="#" target="_blank"><i class="fa-brands fa-youtube"></i></a></li>
-                                <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+                                <li>
+                                    <a href="https://www.facebook.com/profile.php?id=100094014625200" target="_blank">
+                                        <i class="fa-brands fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.youtube.com/@TextosProhibidos-fr4bl" target="_blank">
+                                        <i class="fa-brands fa-youtube"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/textosprohibidosshop/" target="_blank">
+                                        <i class="fa-brands fa-instagram"></i>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -34,11 +47,12 @@
                         <ul>
                             <li>
                                 <i class="flaticon-phone"></i>
-                                <span><a href="https://api.whatsapp.com/send?phone=584125202049&text=Hola%20vengo%20de%20TextosProhibidos.shop,%20me%20puedes%20ayudar?" target="_BLANK">+58 4125202049</a></span>
-                                
+                                <span><a href="https://api.whatsapp.com/send?phone=584125202049&text=Hola%20vengo%20de%20TextosProhibidos.shop,%20me%20puedes%20ayudar?"
+                                        target="_BLANK">+58 4125202049</a></span>
+
                             </li>
                             <li>
-                                <i class="flaticon-email"></i> 
+                                <i class="flaticon-email"></i>
                                 <span><a href="mailto:info@textosprohibidos.shop">info@textosprohibidos.shop</a></span>
                             </li>
                         </ul>
@@ -48,17 +62,17 @@
         </div>
     </div>
     <!-- Footer Top End -->
-    
+
     <!-- Footer Bottom -->
     <div class="footer-bottom">
         <div class="container">
             <div class="row fb-inner">
-                <div class="col-lg-6 col-md-12 text-start"> 
-                    <p class="copyright-text">Textos Prohibidos | Book Store -  © 2023 Todos los derechos reservados.</p>
+                <div class="col-lg-6 col-md-12 text-start">
+                    <p class="copyright-text">Textos Prohibidos | Book Store - © 2023 Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>
     </div>
     <!-- Footer Bottom End -->
-    
+
 </footer>

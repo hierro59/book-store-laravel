@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\OperationServicesController;
 use App\Models\Manuscript;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AutorController;
 use App\Http\Controllers\ResizeController;
 use App\Http\Controllers\WelcomeCotroller;
 use App\Http\Controllers\PaymentController;
@@ -17,6 +17,7 @@ use App\Http\Controllers\LibraryDiskController;
 use App\Http\Controllers\ManuscriptsController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\CaptchaValidationController;
+use App\Http\Controllers\OperationServicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,16 +35,20 @@ Route::get('catalog', [CatalogHomeCotroller::class, 'index'])->name('catalog');
 Route::get('detail/{book}', [CatalogHomeCotroller::class, 'detail'])->name('detail');
 Route::get('publish', [PublishHomeCotroller::class, 'index'])->name('publish');
 
+Route::get('autor/{id}', [AutorController::class, 'index'])->name('autor');
+
 Route::get('privacy-policies', function () {
     $counters =  WelcomeCotroller::counters();
     $notifications = OperationServicesController::Notifications();
-    return view('privacy-policies', compact('counters', 'notifications'));
+    $avatar = OperationServicesController::getAuthUserImageProfile('avatar');
+    return view('privacy-policies', compact('counters', 'notifications', 'avatar'));
 })->name('privacy-policies');
 
 Route::get('faq', function () {
     $counters =  WelcomeCotroller::counters();
     $notifications = OperationServicesController::Notifications();
-    return view('faq', compact('counters', 'notifications'));
+    $avatar = OperationServicesController::getAuthUserImageProfile('avatar');
+    return view('faq', compact('counters', 'notifications', 'avatar'));
 })->name('faq');
 
 Route::get('/dashboard', function () {

@@ -1,4 +1,4 @@
-@props(['book', 'books'])
+@props(['book', 'books', 'avatar'])
 <section class="content-inner-1">
     <div class="container px-20">
         <div class="row book-grid-row style-4 m-b60">
@@ -11,7 +11,7 @@
                         <div class="tp-header">
                             <h1 class="title">{{ $book['book_name'] }}</h1>
                             <div class="shop-item-rating">
-                                <div class="d-lg-flex d-sm-inline-flex d-flex align-items-center">
+                                {{-- <div class="d-lg-flex d-sm-inline-flex d-flex align-items-center">
                                     <ul class="tp-rating">
                                         <li><i class="flaticon-star text-yellow"></i></li>
                                         <li><i class="flaticon-star text-yellow"></i></li>
@@ -20,7 +20,7 @@
                                         <li><i class="flaticon-star text-muted"></i></li>
                                     </ul>
                                     <h6 class="m-b0">4.0</h6>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="social-area">
                                     <ul class="tp-social-icon style-3">
                                         <li><a href="#" target="_blank">
@@ -42,19 +42,27 @@
                                 <ul class="book-info">
                                     <li>
                                         <div class="writer-info">
-                                            <img src="{{ asset('assets/images/profile2.jpg') }}" alt="book">
+                                            <img src="{{ asset($book['avatar']) }}" alt="book">
                                             <div>
-                                                <span>Writen by</span>{{ $book['autor'] }}
+                                                <span>Escrito por</span>
+
+                                                @if ($book['autor_id'] != null)
+                                                    <a
+                                                        href="{{ route('autor', $book['autor_id']) }}">{{ $book['autor'] }}</a>
+                                                @else
+                                                    <a>{{ $book['autor'] }}</a>
+                                                @endif
+
                                             </div>
                                         </div>
                                     </li>
                                     {{-- <li><span>Publisher</span>Printarea Studios</li> --}}
-                                    <li><span>Year</span>{{ $book['year'] }}</li>
+                                    <li><span>Año</span>{{ $book['year'] }}</li>
                                 </ul>
                             </div>
                             <p class="text-1">{{ $book['book_detail'] }}</p>
                             <div class="book-footer">
-                                @if ($book['price'] == "0.00")
+                                @if ($book['price'] == '0.00')
                                     <div class="price">
                                         <h5>GRATIS</h5>
                                     </div>
@@ -67,31 +75,33 @@
                                     </div>
                                 @endif
                                 <div class="product-num">
-                                @if ($book['price'] == "0.00")
-                                    @auth
-                                        <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer Gratis</a>
-                                    @else
-                                        <a class="btn btn-primary btnhover" href="{{ route('login') }}">Descargar</a>
-                                    @endauth
-                                @else
-                                    @auth
-                                        @if ($book['owner'])
-                                            <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}" target="_BLANK">Leer en mi Biblioteca</a>
+                                    @if ($book['price'] == '0.00')
+                                        @auth
+                                            <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}"
+                                                target="_BLANK">Leer Gratis</a>
                                         @else
-                                            <x-home.paypal-button :data="$book" /> 
-                                        @endif
+                                            <a class="btn btn-primary btnhover" href="{{ route('login') }}">Descargar</a>
+                                        @endauth
                                     @else
-                                        <a class="btn btn-primary btnhover" href="{{ route('login') }}"><span class="mr-2">Comprar ${{ $book['sale'] }} </span>
-                                            @if ($book['discount'])
-                                                <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
+                                        @auth
+                                            @if ($book['owner'])
+                                                <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}"
+                                                    target="_BLANK">Leer en mi Biblioteca</a>
+                                            @else
+                                                <x-home.paypal-button :data="$book" />
                                             @endif
-                                        </a>
-                                    @endauth
-                                @endif
-                                
+                                        @else
+                                            <a class="btn btn-primary btnhover" href="{{ route('login') }}"><span
+                                                    class="mr-2">Comprar ${{ $book['sale'] }} </span>
+                                                @if ($book['discount'])
+                                                    <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
+                                                @endif
+                                            </a>
+                                        @endauth
+                                    @endif
+
                                     <div class="bookmark-btn style-1 d-none d-sm-block">
-                                        <input class="form-check-input" type="checkbox"
-                                            id="flexCheckDefault1">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault1">
                                         <label class="form-check-label" for="flexCheckDefault1">
                                             <i class="flaticon-heart"></i>
                                         </label>
@@ -162,7 +172,7 @@
                                 </tr>
                             </table>
                         </div>
-        {{-- OPINIONES --}}
+                        {{-- OPINIONES --}}
                         <!-- <div id="developement-1" class="tab-pane">
                             <div class="clear" id="comment-list">
                                 <div class="post-comments comments-area style-1 clearfix">
@@ -292,10 +302,8 @@
                                                 <p class="comment-form-email"><input id="email"
                                                         required="required" placeholder="Email" name="email"
                                                         type="email" value=""></p>
-                                                <p class="comment-form-comment"><textarea id="comments"
-                                                        placeholder="Type Comment Here"
-                                                        class="form-control4" name="comment" cols="45"
-                                                        rows="3" required="required"></textarea></p>
+                                                <p class="comment-form-comment"><textarea id="comments" placeholder="Type Comment Here" class="form-control4" name="comment" cols="45"
+                                                    rows="3" required="required"></textarea></p>
                                                 <p class="col-md-12 col-sm-12 col-xs-12 form-submit">
                                                     <button id="submit" type="submit"
                                                         class="submit btn btn-primary filled">

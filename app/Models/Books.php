@@ -23,7 +23,8 @@ class Books extends Model
         'status',
         'categorie',
         'file_path',
-        'created_by'
+        'created_by',
+        'autor_id'
     ];
 
     public function getRouteKeyName()
