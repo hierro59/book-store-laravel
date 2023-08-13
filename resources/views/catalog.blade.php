@@ -62,12 +62,12 @@
                         </div>
                     </div>
                     <div id="div-01">
-                        <x-catalog.grid :books="$books" />
+                        <x-catalog.grid :books="$books" :pay="$pay" />
                     </div>
 
-                    <div id="div-02" style="display: none">
+                    {{-- <div id="div-02" style="display: none">
                         <x-catalog.list :books="$books" />
-                    </div>
+                    </div> --}}
 
                     <div class="row page mt-0">
                         <div class="col-md-6">

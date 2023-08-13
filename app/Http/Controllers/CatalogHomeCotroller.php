@@ -36,6 +36,8 @@ class CatalogHomeCotroller extends Controller
             $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($autor[0]['id']) ? $autor[0]['id'] : NULL));
             
             $dataBanner = [
+                'id' => $book->id,
+                'name' => $book->name,
                 'book_id' => $book->id,
                 'book_slug' => $book->slug,
                 'book_name' => $book->name,
@@ -56,10 +58,14 @@ class CatalogHomeCotroller extends Controller
             array_push($books, $dataBanner);
             
         }
-        //dd($books);
+        
+        $pay = WelcomeCotroller::booksData($getbooks);
+
+        //dd($pay);
+
         $notifications = OperationServicesController::Notifications();
         
-        return view('catalog', compact('books', 'getbooks', 'notifications', 'avatarProfile'))
+        return view('catalog', compact('books', 'getbooks', 'notifications', 'avatarProfile', 'pay'))
         ->with('i', ($request->input('page', 1) - 1) * 20);
     }
 
