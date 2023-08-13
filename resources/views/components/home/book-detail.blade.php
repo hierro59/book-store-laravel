@@ -1,4 +1,4 @@
-@props(['book', 'books', 'avatar'])
+@props(['book', 'books', 'avatar', 'pay'])
 <section class="content-inner-1">
     <div class="container px-20">
         <div class="row book-grid-row style-4 m-b60">
@@ -61,6 +61,7 @@
                                 </ul>
                             </div>
                             <p class="text-1">{{ $book['book_detail'] }}</p>
+
                             <div class="book-footer">
                                 @if ($book['price'] == '0.00')
                                     <div class="price">
@@ -88,7 +89,7 @@
                                                 <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}"
                                                     target="_BLANK">Leer en mi Biblioteca</a>
                                             @else
-                                                <x-home.paypal-button :data="$book" />
+                                                <x-home.paypal-button :data="$pay" />
                                             @endif
                                         @else
                                             <a class="btn btn-primary btnhover" href="{{ route('login') }}"><span

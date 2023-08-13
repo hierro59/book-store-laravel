@@ -67,7 +67,7 @@ class CatalogHomeCotroller extends Controller
     {   
         $getbooks = Books::where('status', '=', '1')->paginate(20);
         isset(Auth::user()->id) ? $user_id = Auth::user()->id : $user_id = NULL;
-        $books = [];
+        /* $books = [];
         for ($i=0; $i < count($getbooks); $i++) { 
             $bookFor = Books::find($getbooks[$i]['id']);
             $autor = User::where('name', '=', $getbooks[$i]['autor'])->get();
@@ -78,6 +78,7 @@ class CatalogHomeCotroller extends Controller
             $year = date('Y', $bookFor->year);
             $MyLibrary = MyLibrary::where('user_id', '=', $user_id)->where('book_id', '=', $getbooks[$i]['id'])->get();
             count($MyLibrary) > 0 ? $owner = true : $owner = false;
+            $dataBanner = WelcomeCotroller::booksData($bookFor);
             $dataBanner = [
                 'book_id' => $bookFor->id,
                 'book_slug' => $bookFor->slug,
@@ -97,7 +98,9 @@ class CatalogHomeCotroller extends Controller
                 'avatar' => $avatar
             ];
             array_push($books, $dataBanner);
-        }
+        } */
+        $books = WelcomeCotroller::booksData($getbooks);
+        $pay = WelcomeCotroller::booksData($getbooks);
         
         $autor = User::where('id', '=', $book->autor_id)->get();
         $categoria = Categorie::find($book->categorie);
@@ -128,8 +131,27 @@ class CatalogHomeCotroller extends Controller
             'avatar' => $avatar
         ];
 
+        $pay = [
+            'id' => $book->id,
+            'slug' => $book->slug,
+            'name' => $book->name,
+            'detail' => $book->detail,
+            'autor' => $book->autor,
+            'autor_id' => (isset($autor[0]['id']) ? $autor[0]['id'] : NULL),
+            'year' => $year,
+            'isbn' => $book->isbn,
+            'categoria' => $categoria->name,
+            'portada' => $portada[0]['image_name'],
+            'owner' => $owner,
+            'price' => $book->price,
+            'discount' => ($book->discount > 0 ? $book->discount : NULL),
+            'sale' => ($book->discount > 0 ? $sale : $book->price),
+            'offer' => ($book->discount > 0 ? $book->discount : NULL),
+            'avatar' => $avatar
+        ];
+
         $notifications = OperationServicesController::Notifications();
         
-        return view('detail', compact('data', 'books', 'notifications', 'avatarProfile'));
+        return view('detail', compact('data', 'books', 'notifications', 'avatarProfile', 'pay'));
     }
 }

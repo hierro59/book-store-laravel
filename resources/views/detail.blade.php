@@ -19,7 +19,7 @@
         <x-header :notifications="$notifications" :avatar="$avatarProfile" />
         <!-- Header End -->
 
-        <x-home.book-detail :book="$data" :books="$books" />
+        <x-home.book-detail :book="$data" :books="$books" :pay="$pay" />
 
 
 
