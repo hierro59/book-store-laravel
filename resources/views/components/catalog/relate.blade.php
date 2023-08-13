@@ -33,7 +33,7 @@
 
                             </div>
 
-                            <a href="{{ route('detail', $relates[$i]['slug']) }}"
+                            <a href="{{ route('detail', $relates[$i]['book_slug']) }}"
                                 class="btn btn-outline-secondary btnhover ms-4">Detalles</a>
 
                         </div>
