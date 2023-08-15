@@ -11,7 +11,7 @@
                             <img src="{{ asset('thumbnail/covers/' . $relates[$i]['portada']) }}" alt="">
                         </div>
                         <div class="tp-content">
-                            <h5 class="subtitle">{{ $relates[$i]['book_name'] }}</h5>
+                            <h5 class="subtitle">{{ $relates[$i]['name'] }}</h5>
                             <ul class="tp-tags">
                                 <li>{{ $relates[$i]['categoria'] }}</li>
                                 {{-- <li>DRAMA,</li>

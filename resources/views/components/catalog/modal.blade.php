@@ -170,7 +170,7 @@
                                             <table class="table border book-overview">
                                                 <tr>
                                                     <th>Titulo del libro</th>
-                                                    <td>{{ $book['book_name'] }}</td>
+                                                    <td>{{ $book['name'] }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Autor</th>
