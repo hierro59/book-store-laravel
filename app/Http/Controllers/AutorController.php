@@ -25,7 +25,7 @@ class AutorController extends Controller
         $linkedin = OperationServicesController::getAutorNetwork('linkedin', $id);
 
         $autorbooks = Books::where('status', '=', '1')
-            ->where('autor', '=', $autor->name)
+            ->where('autor_id', '=', $autor->id)
             ->paginate(10);
         $autorbooks = WelcomeCotroller::booksData($autorbooks);
 
