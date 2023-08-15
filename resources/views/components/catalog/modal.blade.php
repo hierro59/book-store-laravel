@@ -9,7 +9,7 @@
 <!-- Modal -->
 <div data-te-modal-init
     class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
-    id="Modal{{ $book['book_id'] }}" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+    id="Modal{{ $book['id'] }}" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
     <div data-te-modal-dialog-ref
         class="pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out min-[0px]:m-0 min-[0px]:h-full min-[0px]:max-w-none">
         <div
@@ -19,7 +19,7 @@
                 <!-- Modal title -->
                 <h5 class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
                     id="exampleModalFullscreenLabel">
-                    {{ $book['book_name'] }}
+                    {{ $book['name'] }}
                 </h5>
                 <!-- Close button -->
                 <button type="button"
@@ -42,12 +42,12 @@
                         <div class="row book-grid-row style-4 m-b60">
                             <div class="col">
                                 <div class="tp-box">
-                                    <div class="tp-media">
+                                    <div class="w-2/4">
                                         <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">
                                     </div>
                                     <div class="tp-content">
                                         <div class="tp-header">
-                                            <h1 class="title">{{ $book['book_name'] }}</h1>
+                                            <h1 class="text-5xl">{{ $book['name'] }}</h1>
                                             <div class="shop-item-rating">
                                                 <div class="d-lg-flex d-sm-inline-flex d-flex align-items-center">
                                                     <ul class="tp-rating">
@@ -91,7 +91,7 @@
                                                     <li><span>Año</span> {{ $book['year'] }}</li>
                                                 </ul>
                                             </div>
-                                            <p class="text-1">{{ $book['book_detail'] }}</p>
+                                            <p class="text-1">{{ $book['detail'] }}</p>
                                             <div class="book-footer">
                                                 @if ($book['price'] == '0.00')
                                                     <div class="price">
@@ -109,7 +109,7 @@
                                                     @if ($book['price'] == '0.00')
                                                         @auth
                                                             <a class="btn btn-primary btnhover"
-                                                                href="{{ asset($book['book_file']) }}" target="_BLANK">Leer
+                                                                href="{{ asset($book['file_path']) }}" target="_BLANK">Leer
                                                                 Gratis</a>
                                                         @else
                                                             <a class="btn btn-primary btnhover" href="login">Descargar</a>
@@ -118,8 +118,9 @@
                                                         @auth
                                                             @if ($book['owner'])
                                                                 <a class="btn btn-primary btnhover"
-                                                                    href="{{ asset($book['book_file']) }}"
-                                                                    target="_BLANK">Leer en mi Biblioteca</a>
+                                                                    href="{{ asset($book['file_path']) }}"
+                                                                    target="_BLANK">Leer
+                                                                    en mi Biblioteca</a>
                                                             @else
                                                                 <x-home.paypal-button :data="$book" />
                                                             @endif
@@ -177,7 +178,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>ISBN</th>
-                                                    <td>121341381648 (ISBN13: 121341381648)</td>
+                                                    <td>{{ $book['isbn'] }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Idioma de edición</th>

@@ -22,7 +22,7 @@ class CatalogHomeCotroller extends Controller
         $avatarProfile = OperationServicesController::getAuthUserImageProfile('avatar');
         $getbooks = Books::where('status', '=', '1')->inRandomOrder()->paginate(20);
         isset(Auth::user()->id) ? $user_id = Auth::user()->id : $user_id = NULL;
-        $books = [];
+        /* $books = [];
         for ($i=0; $i < count($getbooks); $i++) { 
             $book = Books::find($getbooks[$i]['id']);
             $autor = User::where('id', '=', $getbooks[$i]['autor_id'])->get();
@@ -57,8 +57,8 @@ class CatalogHomeCotroller extends Controller
             ];
             array_push($books, $dataBanner);
             
-        }
-        
+        } */
+        $books = WelcomeCotroller::booksData($getbooks);
         $pay = WelcomeCotroller::booksData($getbooks);
 
         //dd($pay);

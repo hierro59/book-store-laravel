@@ -1,4 +1,5 @@
 @props(['relates'])
+
 <div class="col-xl-4 mt-5 mt-xl-0">
     <div class="widget">
         <h4 class="widget-title">Publicaciones relacionadas</h4>
@@ -33,7 +34,7 @@
 
                             </div>
 
-                            <a href="{{ route('detail', $relates[$i]['book_slug']) }}"
+                            <a href="{{ route('detail', $relates[$i]['slug']) }}"
                                 class="btn btn-outline-secondary btnhover ms-4">Detalles</a>
 
                         </div>

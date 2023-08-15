@@ -4,18 +4,18 @@
         <div class="col-book style-1">
             <div class="tp-shop-card style-1">
                 <div class="tp-media">
-                    <a href="" data-te-toggle="modal" data-te-target="#Modal{{ $book['book_id'] }}">
+                    <a href="" data-te-toggle="modal" data-te-target="#Modal{{ $book['id'] }}">
                         <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">
                     </a>
                 </div>
                 <div class="bookmark-btn style-2">
-                    <input class="form-check-input" type="checkbox" id="flexCheckDefault{{ $book['book_name'] }}">
-                    <label class="form-check-label" for="flexCheckDefault{{ $book['book_name'] }}">
+                    <input class="form-check-input" type="checkbox" id="flexCheckDefault{{ $book['name'] }}">
+                    <label class="form-check-label" for="flexCheckDefault{{ $book['name'] }}">
                         <i class="flaticon-heart"></i>
                     </label>
                 </div>
                 <div class="tp-content">
-                    <h5 class="title">{{ $book['book_name'] }}</h5>
+                    <h5 class="title">{{ $book['name'] }}</h5>
                     <ul class="tp-tags">
                         <li>{{ strtoupper($book['categoria']) }}</li>
                         {{-- <li>SCIENCE</li> --}}
@@ -48,7 +48,7 @@
                         @endif
                         @if ($book['price'] == '0.00')
                             @auth
-                                <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}"
+                                <a class="btn btn-primary btnhover" href="{{ asset($book['file_path']) }}"
                                     target="_BLANK">Leer Gratis</a>
                             @else
                                 <a class="btn btn-primary btnhover" href="login">Descargar</a>
@@ -56,12 +56,12 @@
                         @else
                             @auth
                                 @if ($book['owner'])
-                                    <a class="btn btn-primary btnhover" href="{{ asset($book['book_file']) }}"
+                                    <a class="btn btn-primary btnhover" href="{{ asset($book['file_path']) }}"
                                         target="_BLANK">Leer en mi Biblioteca</a>
                                 @else
                                     <x-home.paypal-button :data="$book" />
                                     <a class="btn btn-primary btnhover" data-te-toggle="modal"
-                                        data-te-target="#Modal{{ $book['book_id'] }}">
+                                        data-te-target="#Modal{{ $book['id'] }}">
                                         <i class="fa-solid fa-eye mr-2"></i>
                                         Ver mas
                                     </a>
@@ -74,7 +74,7 @@
                                     @endif
                                 </a>
                                 <a class="btn btn-primary btnhover" data-te-toggle="modal"
-                                    data-te-target="#Modal{{ $book['book_id'] }}">
+                                    data-te-target="#Modal{{ $book['id'] }}">
                                     <i class="fa-solid fa-eye mr-2"></i>
                                     Ver mas
                                 </a>
@@ -105,6 +105,7 @@
                 </div>
             </div>
         </div>
+
         <x-catalog.modal :book="$book" :books="$books" />
     @endforeach
 </div>

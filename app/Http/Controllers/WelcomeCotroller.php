@@ -110,10 +110,11 @@ class WelcomeCotroller extends Controller
     }
 
     static public function booksData($books) 
-    {
+    {   
         for ($i=0; $i < count($books); $i++) { 
             $owner = false;
             $book = Books::find($books[$i]['id']);
+            $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($book->autor_id) ? $book->autor_id : NULL));
             $categoria = Categorie::find($books[$i]['categorie']);
             $portada = UserUploadImages::select('image_name')->where('book_id', '=', $books[$i]['id'])->where('type', '=', 'portada')->latest('created_at')->first();
             $sale= self::calcularPrecioConDescuento($book->price, $book->discount);
@@ -130,6 +131,7 @@ class WelcomeCotroller extends Controller
             $books[$i]['discount'] = ($book->discount > 0 ? $book->discount : NULL);
             $books[$i]['sale'] = ($book->discount > 0 ? $sale : $book->price);
             $books[$i]['offer'] = ($book->discount > 0 ? $book->discount : NULL);
+            $books[$i]['avatar'] = $avatar;
         }
         return $books;
     }
