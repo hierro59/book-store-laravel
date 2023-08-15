@@ -1,6 +1,6 @@
 @props(['book', 'books', 'avatar', 'pay'])
 <section class="content-inner-1">
-    <div class="container px-20">
+    <div class="container md:px-20">
         <div class="row book-grid-row style-4 m-b60">
             <div class="col">
                 <div class="tp-box">
