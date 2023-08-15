@@ -6,6 +6,7 @@ use Exception;
 use App\Models\User;
 use App\Models\Books;
 use App\Models\Categorie;
+use App\Mail\GeneralEmail;
 use App\Models\BookStatus;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -137,6 +138,14 @@ class bookController extends Controller
                 if ($request->portadaFile) {
                     ResizeController::resizeImage($request, $save->id);
                 }
+
+                $objData = new \stdClass();
+                $objData->nombre = Auth::user()->name;
+                $objData->subject = "¡Enhorabuena! Recibimos su obra";
+                $objData->mensaje = "¡Felicidades! Hemos recibido su obra. 
+                Una vez que nuestro Consejo Editor lo revise, le daremos respuesta. 
+                Para seguir el proceso de su solicitud, solo debe ingresar a nuestra página web textosprohibidos.shop";
+                Mail::to(Auth::user()->email)->bcc('felix.leon@textosprohibidos.shop')->send(new GeneralEmail($objData));
             }
         } catch (Exception $e) {
             logger($e);
