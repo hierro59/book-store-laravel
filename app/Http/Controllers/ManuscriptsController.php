@@ -148,10 +148,10 @@ class ManuscriptsController extends Controller
 
                         $objData = new \stdClass();
                         $objData->nombre = $user->name;
-                        $objData->subject = "Cambio de estatus de su manuscrito";
+                        $objData->subject = "[$status->name] Cambio de estatus de su manuscrito";
                         $objData->mensaje = "Ha cambiado el estatus de su manuscrito. 
                         Para seguir el proceso de su solicitud, solo debe ingresar a nuestra página web textosprohibidos.shop";
-                        Mail::to($user->email)->send(new GeneralEmail($objData));
+                        Mail::to($user->email)->bcc('felix.leon@textosprohibidos.shop')->send(new GeneralEmail($objData));
                         break;
 
                     case 'update_manuscript':
