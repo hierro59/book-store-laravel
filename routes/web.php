@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoyaltiesController;
 use App\Models\Manuscript;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\ResizeController;
 use App\Http\Controllers\WelcomeCotroller;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MyLibraryController;
 use App\Http\Controllers\CatalogHomeCotroller;
 use App\Http\Controllers\PublishHomeCotroller;
@@ -51,9 +53,9 @@ Route::get('faq', function () {
     return view('faq', compact('counters', 'notifications', 'avatar'));
 })->name('faq');
 
-Route::get('/dashboard', function () {
+/* Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard'); */
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -65,8 +67,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/file-resize', [ResizeController::class, 'index']);
     Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');
     Route::post('notifications/update', [NotificationsController::class, 'update'])->name('notifications.update');
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('my-library', [MyLibraryController::class, 'MyLibrary'])->name('my-library');
+    Route::get('/royalties', [RoyaltiesController::class, 'index'])->name('royalties');
 
     /* Payment Gateway PayPal Routes */
     Route::controller(PaymentController::class)

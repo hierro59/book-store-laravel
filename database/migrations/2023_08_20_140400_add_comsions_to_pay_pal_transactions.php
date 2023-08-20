@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->integer('autor_id')->nullable();
+        Schema::table('pay_pal_transactions', function (Blueprint $table) {
+            $table->float('tp_comision');
+            $table->float('tp_autor_net_amount');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn('autor_id');
+        Schema::table('pay_pal_transactions', function (Blueprint $table) {
+            $table->dropColumn('tp_comision');
+            $table->dropColumn('tp_autor_net_amount');
         });
     }
 };

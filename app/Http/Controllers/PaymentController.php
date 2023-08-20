@@ -92,6 +92,10 @@ class PaymentController extends Controller
     public function saveTransaccion($response)
     {
         $thisResponse = json_encode($response);
+        $explode_id = explode('-', $response['purchase_units'][0]['reference_id']);
+        $book_id = $explode_id[2];
+        $comisionTP = OperationServicesController::comisionTP($response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value'], 10);
+        $netAmountAutor = $response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value'] - $comisionTP;
         $transaction = array([
             "pp_transaction_id" => $response['id'],
             "pp_status" => $response['status'],
@@ -109,7 +113,10 @@ class PaymentController extends Controller
             "pp_payments_update_time" => $response['purchase_units'][0]['payments']['captures'][0]['update_time'],
             "pp_response" => $thisResponse,
             "created_at" => now(),
-            "updated_at" => now()
+            "updated_at" => now(),
+            "book_id" => $book_id,
+            "tp_comision" => $comisionTP,
+            "tp_autor_net_amount" => $netAmountAutor
         ]);
         $save = PayPalTransactions::insert($transaction);
         return $save;

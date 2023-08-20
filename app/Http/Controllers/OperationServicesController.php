@@ -109,4 +109,14 @@ class OperationServicesController extends Controller
         
         return $response;
     }
+
+    static function comisionTP($precio, $porcentajeDescuento) {
+        // Calcula el descuento en base al porcentaje
+        $descuento = $precio * ($porcentajeDescuento / 100);
+                
+        // Redondea el precio con descuento a dos decimales
+        $precioConDescuento = round($descuento, 2);
+        
+        return $precioConDescuento;
+    }
 }
