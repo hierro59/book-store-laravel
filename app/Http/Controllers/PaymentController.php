@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Books;
 use App\Models\MyLibrary;
 use Illuminate\Http\Request;
 use App\Models\PayPalTransactions;
@@ -94,6 +95,7 @@ class PaymentController extends Controller
         $thisResponse = json_encode($response);
         $explode_id = explode('-', $response['purchase_units'][0]['reference_id']);
         $book_id = $explode_id[2];
+        $book = Books::find($book_id);
         $comisionTP = OperationServicesController::comisionTP($response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value'], 10);
         $netAmountAutor = $response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value'] - $comisionTP;
         $transaction = array([
@@ -115,6 +117,7 @@ class PaymentController extends Controller
             "created_at" => now(),
             "updated_at" => now(),
             "book_id" => $book_id,
+            "autor_id" => $book->autor_id,
             "tp_comision" => $comisionTP,
             "tp_autor_net_amount" => $netAmountAutor
         ]);
