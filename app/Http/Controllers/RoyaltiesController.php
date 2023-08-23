@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Books;
 use Illuminate\Http\Request;
 use App\Models\PayPalTransactions;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class RoyaltiesController extends Controller
@@ -14,12 +16,27 @@ class RoyaltiesController extends Controller
         if (Auth::user()->roles[0]->name == 'autor') {
             $allRoyalties = $this->autorRoyalties(Auth::user()->id);
             $salesHistory = $this->salesHistory(Auth::user()->id);
+            
+            return view('royalties.index', compact('allRoyalties', 'salesHistory'));
         } else {
             $allRoyalties = $this->allRoyalties();
             $salesHistory = $this->salesHistory();
+
+            $autors = DB::table('model_has_roles')->where('role_id', '=', 4)->get();
+            $autores = [];
+            for ($i=0; $i < count($autors); $i++) { 
+                $findAutor = User::find($autors[$i]->model_id);
+                $datos = [
+                    'autor_id' => $findAutor->id,
+                    'autor_name' => $findAutor->name
+                ];
+                array_push($autores, $datos);
+            }
+
+            return view('royalties.index', compact('allRoyalties', 'salesHistory', 'autores'));
         }
         
-        return view('royalties.index', compact('allRoyalties', 'salesHistory'));
+        
     }
 
     static function autorRoyalties($id)
@@ -84,5 +101,10 @@ class RoyaltiesController extends Controller
             array_push($sales, $data);
         }
         return $sales;
+    }
+
+    public function pay(Request $request)
+    {
+        
     }
 }

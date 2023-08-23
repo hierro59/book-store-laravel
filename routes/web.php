@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('my-library', [MyLibraryController::class, 'MyLibrary'])->name('my-library');
     Route::get('/royalties', [RoyaltiesController::class, 'index'])->name('royalties');
+    Route::post('/royalties/pay', [RoyaltiesController::class, 'pay'])->name('royalties.pay');
 
     /* Payment Gateway PayPal Routes */
     Route::controller(PaymentController::class)
