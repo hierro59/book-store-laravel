@@ -134,6 +134,25 @@ class ManuscriptsController extends Controller
                                 ];
                                 ManuscriptProgress::create($progress);
                                 break;
+
+                            case 'Editando':
+                                $progress = [
+                                    "manuscript_id" => $request->book_id,
+                                    "title" => "Manuscripto en proceso de edición",
+                                    "description" => "Su manuscripto esta siendo editado."
+                                ];
+                                ManuscriptProgress::create($progress);
+                                break;
+
+                            case 'Publicado':
+                                $progress = [
+                                    "manuscript_id" => $request->book_id,
+                                    "title" => "Obra publicada",
+                                    "description" => "Su obra fue publicada en nuestro catálogo"
+                                ];
+                                ManuscriptProgress::create($progress);
+                                break;
+
                             default:
                                 $progress = [
                                     "manuscript_id" => $request->book_id,
