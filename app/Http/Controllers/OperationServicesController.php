@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\hearts;
 use Illuminate\Http\Request;
 use App\Models\Notifications;
 use App\Models\SocialNetworks;
@@ -19,7 +20,7 @@ class OperationServicesController extends Controller
 
             $lastOne = [];
             $last = [];
-            for ($i=0; $i < count($noRead); $i++) { 
+            for ($i = 0; $i < count($noRead); $i++) {
                 $lastOne['id'] = json_decode($noRead[$i])->id;
                 $lastOne['titulo'] = json_decode($noRead[$i]['data'])->titulo;
                 $lastOne['detalle'] = json_decode($noRead[$i]['data'])->detalle;
@@ -29,7 +30,7 @@ class OperationServicesController extends Controller
 
             $allOne = [];
             $all = [];
-            for ($i=0; $i < count($allGet); $i++) { 
+            for ($i = 0; $i < count($allGet); $i++) {
                 $allOne['id'] = json_decode($allGet[$i])->id;
                 $allOne['titulo'] = json_decode($allGet[$i]['data'])->titulo;
                 $allOne['detalle'] = json_decode($allGet[$i]['data'])->detalle;
@@ -50,13 +51,14 @@ class OperationServicesController extends Controller
         return $notifications;
     }
 
-    static function getAuthUserImageProfile($criterio) {
-        if (Auth::check()) {        
+    static function getAuthUserImageProfile($criterio)
+    {
+        if (Auth::check()) {
             $image = UserUploadImages::where('type', '=', $criterio)
-            ->where('customer_id', '=', Auth::user()->id)
-            ->where('status', '=', 1)
-            ->orderBy('created_at', 'desc')
-            ->first();
+                ->where('customer_id', '=', Auth::user()->id)
+                ->where('status', '=', 1)
+                ->orderBy('created_at', 'desc')
+                ->first();
         } else {
             $image = false;
         }
@@ -73,14 +75,15 @@ class OperationServicesController extends Controller
         return $return;
     }
 
-    static function getPublicAutorImageProfile($criterio, $id) {
-            
+    static function getPublicAutorImageProfile($criterio, $id)
+    {
+
         $image = UserUploadImages::where('type', '=', $criterio)
             ->where('customer_id', '=', $id)
             ->where('status', '=', 1)
             ->orderBy('created_at', 'desc')
             ->first();
-        
+
         //dd($image);
         if ($image) {
             $return = "thumbnail/covers/" . $image->image_name;
@@ -97,26 +100,45 @@ class OperationServicesController extends Controller
     static function getAutorNetwork($criterio, $id)
     {
         $getSN = SocialNetworks::where('user_id', '=', $id)
-                    ->where('sn_network', '=', $criterio)
-                    ->whereNull('deleted')
-                    ->get();
+            ->where('sn_network', '=', $criterio)
+            ->whereNull('deleted')
+            ->get();
 
         if (count($getSN) >= 1) {
-            $response = $getSN[0]['sn_url']; 
+            $response = $getSN[0]['sn_url'];
         } else {
             $response = NULL;
         }
-        
+
         return $response;
     }
 
-    static function comisionTP($precio, $porcentajeDescuento) {
+    static function comisionTP($precio, $porcentajeDescuento)
+    {
         // Calcula el descuento en base al porcentaje
         $descuento = $precio * ($porcentajeDescuento / 100);
-                
+
         // Redondea el precio con descuento a dos decimales
         $precioConDescuento = round($descuento, 2);
-        
+
         return $precioConDescuento;
+    }
+
+    static function getHearts($book)
+    {
+        if (Auth::check()) {
+            $getHearts = hearts::where("user_id", "=", Auth::user()->id)
+                ->where("book_id", "=", $book)
+                ->whereNull("deleted")
+                ->get();
+            if (count($getHearts) == 0) {
+                $heart = NULL;
+            } else {
+                $heart = true;
+            }
+        } else {
+            $heart = NULL;
+        }
+        return $heart;
     }
 }

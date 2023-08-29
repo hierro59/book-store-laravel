@@ -353,7 +353,7 @@
                                 </div>
                             </div>
                             {{-- BANNER RELACIONADOS --}}
-                            <x-catalog.relate :relates="$books" />
+                            {{-- <x-catalog.relate :relates="$books" /> --}}
                         </div>
                     </div>
                 </section>

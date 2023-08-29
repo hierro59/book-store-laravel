@@ -10,10 +10,16 @@
         <div class="page-content bg-grey">
             <section class="content-inner-1 border-bottom px-20">
                 <div class="container">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="title">Libros</h4>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="text-2xl">Libros
+                            @if (isset($_GET['search']))
+                                / Resultados para {{ $_GET['search'] }}
+                            @endif
+                        </h4>
                     </div>
-                    <div class="filter-area m-b30">
+
+
+                    {{-- <div class="filter-area m-b30">
                         <div class="grid-area">
                             <div class="shop-tab">
                                 <ul class="nav text-center product-filter justify-content-end" role="tablist">
@@ -32,7 +38,7 @@
 													fill="#AAAAAA"></path>
 											</svg>
 										</a>
-									</li> --}}
+									</li> 
                                     <li class="nav-item" id="display-01">
                                         <a class="nav-link" href="#">
                                             <svg width="24" height="24" viewbox="0 0 24 24" fill="none"
@@ -60,11 +66,16 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
                     <div id="div-01">
                         <x-catalog.grid :books="$books" :pay="$pay" />
                     </div>
-
+                    @if (isset($_GET['search']))
+                        <x-primary-button class="mt-4">
+                            <a href="catalog">Verlos todos</a>
+                        </x-primary-button>
+                    @endif
                     {{-- <div id="div-02" style="display: none">
                         <x-catalog.list :books="$books" />
                     </div> --}}

@@ -39,27 +39,32 @@ class WelcomeCotroller extends Controller
         $notifications = OperationServicesController::Notifications();
 
         $avatar = OperationServicesController::getAuthUserImageProfile('avatar');
-        
-        return view('welcome', compact(
-            'booksBanner', 
-            'booksRecomendations', 
-            'booksSales', 
-            'offers',
-            'counters',
-            'notifications',
-            'avatar'
-            ));
+
+        return view(
+            'welcome',
+            compact(
+                'booksBanner',
+                'booksRecomendations',
+                'booksSales',
+                'offers',
+                'counters',
+                'notifications',
+                'avatar'
+            )
+        );
     }
 
-    public function banner() {
+    public function banner()
+    {
 
         $booksBanner = Books::latest()->where('status', '=', '1')->paginate(3);
         $booksBanner = $this->booksData($booksBanner);
-        
+
         return $booksBanner;
     }
 
-    public function recomendations() {
+    public function recomendations()
+    {
 
         $booksRecomendations = Books::where('status', '=', '1')->paginate(10);
         $booksRecomendations = $this->booksData($booksRecomendations);
@@ -67,15 +72,17 @@ class WelcomeCotroller extends Controller
         return $booksRecomendations;
     }
 
-    public function booksSales() {
+    public function booksSales()
+    {
 
         $booksSales = Books::where('status', '=', '1')->where('price', '>', '0.00')->paginate(10);
         $booksSales = $this->booksData($booksSales);
-        
+
         return $booksSales;
     }
 
-    public function offers() {
+    public function offers()
+    {
 
         $offers = Books::where('status', '=', '1')->where('discount', '>', '0')->paginate(10);
         $offers = $this->booksData($offers);
@@ -83,7 +90,8 @@ class WelcomeCotroller extends Controller
         return $offers;
     }
 
-    static function counters() {
+    static function counters()
+    {
         $customers = DB::table('model_has_roles')->where('role_id', '=', 3)->count();
         $autors = DB::table('model_has_roles')->where('role_id', '=', 4)->count();
         $books = Books::where('status', '=', 1)->count();
@@ -96,29 +104,31 @@ class WelcomeCotroller extends Controller
         return $counters;
     }
 
-    static function calcularPrecioConDescuento($precio, $porcentajeDescuento) {
+    static function calcularPrecioConDescuento($precio, $porcentajeDescuento)
+    {
         // Calcula el descuento en base al porcentaje
         $descuento = $precio * ($porcentajeDescuento / 100);
-        
+
         // Calcula el precio con descuento
         $precioConDescuento = $precio - $descuento;
-        
+
         // Redondea el precio con descuento a dos decimales
         $precioConDescuento = round($precioConDescuento, 2);
-        
+
         return $precioConDescuento;
     }
 
-    static public function booksData($books) 
-    {   
-        for ($i=0; $i < count($books); $i++) { 
+    static public function booksData($books)
+    {
+        for ($i = 0; $i < count($books); $i++) {
             $owner = false;
             $book = Books::find($books[$i]['id']);
             $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($book->autor_id) ? $book->autor_id : NULL));
             $categoria = Categorie::find($books[$i]['categorie']);
             $portada = UserUploadImages::select('image_name')->where('book_id', '=', $books[$i]['id'])->where('type', '=', 'portada')->latest('created_at')->first();
-            $sale= self::calcularPrecioConDescuento($book->price, $book->discount);
+            $sale = self::calcularPrecioConDescuento($book->price, $book->discount);
             $year = date('Y', $book->year);
+            $heart = OperationServicesController::getHearts($book->id);
             $books[$i]['year'] = $year;
             $books[$i]['categoria'] = $categoria->name;
             if (Auth::check()) {
@@ -132,6 +142,7 @@ class WelcomeCotroller extends Controller
             $books[$i]['sale'] = ($book->discount > 0 ? $sale : $book->price);
             $books[$i]['offer'] = ($book->discount > 0 ? $book->discount : NULL);
             $books[$i]['avatar'] = $avatar;
+            $books[$i]['heart'] = $heart;
         }
         return $books;
     }
