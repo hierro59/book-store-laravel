@@ -101,6 +101,20 @@ class CatalogHomeCotroller extends Controller
         return view('detail', compact('data', 'books', 'notifications', 'avatarProfile', 'pay'));
     }
 
+    public function wishlist()
+    {
+        if (Auth::check()) {
+            $hearts = OperationServicesController::getUserHearts();
+        } else {
+            $hearts = NULL;
+        }
+        $getbooks = Books::where('status', '=', '1')->inRandomOrder()->paginate(20);
+        $pay = WelcomeCotroller::booksData($getbooks);
+        $avatarProfile = OperationServicesController::getAuthUserImageProfile('avatar');
+        $notifications = OperationServicesController::Notifications();
+        return view('lista-de-deseos', compact('notifications', 'avatarProfile', 'hearts', 'pay'));
+    }
+
     public function hearts()
     {
         $now = date('Y-m-d H:i:s');

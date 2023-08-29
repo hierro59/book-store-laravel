@@ -21560,7 +21560,8 @@ button:focus {
 .overlay-primary-light,
 .overlay-primary-middle,
 .overlay-primary-dark,
-.overlay-primary {
+.overlay-primary,
+.overlay-red-dark {
   position: relative;
 }
 
@@ -21579,7 +21580,8 @@ button:focus {
 .overlay-primary-light:before,
 .overlay-primary-middle:before,
 .overlay-primary-dark:before,
-.overlay-primary:before {
+.overlay-primary:before,
+.overlay-red-light:before {
   content: "";
   position: absolute;
   left: 0;
@@ -21678,6 +21680,11 @@ button:focus {
 .overlay-primary-dark .container-md,
 .overlay-primary-dark .container-lg,
 .overlay-primary-dark .container-xl,
+.overlay-red-dark .container-fluid,
+.overlay-red-dark .container-sm,
+.overlay-red-dark .container-md,
+.overlay-red-dark .container-lg,
+.overlay-red-dark .container-xl,
 .overlay-primary .container,
 .overlay-primary .container-fluid,
 .overlay-primary .container-sm,
@@ -21692,6 +21699,12 @@ button:focus {
 .overlay-black-middle:before,
 .overlay-black-dark:before {
   background: #13212a;
+}
+
+.overlay-red-light:before,
+.overlay-red-middle:before,
+.overlay-red-dark:before {
+  background: red;
 }
 
 .overlay-secondary-light:before,

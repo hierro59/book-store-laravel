@@ -51,7 +51,7 @@
             });
             request.done(function(response) {
 
-                console.log(response);
+                //console.log(response);
             });
             request.fail(function() {
                 console.log(response);

@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/royalties/pay', [RoyaltiesController::class, 'pay'])->name('royalties.pay');
 
     Route::get('hearts', [CatalogHomeCotroller::class, 'hearts'])->name('hearts');
+    Route::get('lista-de-deseos', [CatalogHomeCotroller::class, 'wishlist'])->name('lista-de-deseos');
 
     /* Payment Gateway PayPal Routes */
     Route::controller(PaymentController::class)

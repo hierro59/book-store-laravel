@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Books;
 use App\Models\hearts;
+use App\Models\Categorie;
+use App\Models\MyLibrary;
 use Illuminate\Http\Request;
 use App\Models\Notifications;
 use App\Models\SocialNetworks;
@@ -140,5 +143,45 @@ class OperationServicesController extends Controller
             $heart = NULL;
         }
         return $heart;
+    }
+
+    static function getUserHearts()
+    {
+        $getHearts = hearts::where("user_id", "=", Auth::user()->id)
+            ->whereNull("deleted")
+            ->get();
+        if (count($getHearts) == 0) {
+            $getHearts = NULL;
+        } else {
+            for ($i = 0; $i < count($getHearts); $i++) {
+                $book = Books::find($getHearts[$i]['book_id']);
+                $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($book->autor_id) ? $book->autor_id : NULL));
+                $categoria = Categorie::find($book->categorie);
+                $portada = UserUploadImages::select('image_name')->where('book_id', '=', $getHearts[$i]['book_id'])->where('type', '=', 'portada')->latest('created_at')->first();
+                $sale = WelcomeCotroller::calcularPrecioConDescuento($book->price, $book->discount);
+                $year = date('Y', $book->year);
+                $heart = OperationServicesController::getHearts($book->id);
+                $getHearts[$i]['id'] = $book->id;
+                $getHearts[$i]['name'] = $book->name;
+                $getHearts[$i]['file_path'] = $book->file_path;
+                $getHearts[$i]['detail'] = $book->detail;
+                $getHearts[$i]['year'] = $year;
+                $getHearts[$i]['categoria'] = ($categoria->name ? $categoria->name : NULL);
+                if (Auth::check()) {
+                    $MyLibrary = MyLibrary::where('user_id', '=', Auth::user()->id)->where('book_id', '=', $getHearts[$i]['book_id'])->get();
+                    count($MyLibrary) > 0 ? $owner = true : $owner = false;
+                }
+                $getHearts[$i]['owner'] = $owner;
+                $getHearts[$i]['portada'] = $portada->image_name;
+                $getHearts[$i]['price'] = $book->price;
+                $getHearts[$i]['discount'] = ($book->discount > 0 ? $book->discount : NULL);
+                $getHearts[$i]['sale'] = ($book->discount > 0 ? $sale : $book->price);
+                $getHearts[$i]['offer'] = ($book->discount > 0 ? $book->discount : NULL);
+                $getHearts[$i]['avatar'] = $avatar;
+                $getHearts[$i]['heart'] = $heart;
+            }
+        }
+
+        return $getHearts;
     }
 }

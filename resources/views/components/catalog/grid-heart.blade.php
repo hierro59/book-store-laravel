@@ -1,7 +1,7 @@
 @props(['books', 'pay'])
 <div class="row book-grid-row">
-    @if (count($books) == 0)
-        <h1 class="text-5xl">No hay coincidencias con su búsqueda</h1>
+    @if (!$books)
+        <h1 class="text-5xl">Usted aún no ha marcado nada como favorito</h1>
     @else
         @foreach ($books as $book)
             <div class="col-book style-1">
