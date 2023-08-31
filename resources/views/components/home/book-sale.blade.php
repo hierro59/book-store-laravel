@@ -11,39 +11,41 @@
         </div>
         <div class="swiper-container books-wrapper-3 swiper-four">
             <div class="swiper-wrapper">
-            @foreach ($booksSales as $book)
-                <div class="swiper-slide">
-                    <a href="{{ route('detail', $book['slug']) }}">
-                    <div class="books-card style-3 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="tp-media">
-                            <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">									
-                        </div>
-                        <div class="tp-content">
-                            <h5 class="title"><a href="{{ route('detail', $book['slug']) }}">{{ $book['name'] }}</a></h5>
-                            <ul class="tp-tags">
-                                <li><a href="{{ route('detail', $book['slug']) }}">{{ $book['categoria'] }}</a></li>
-                                {{-- <li><a href="books-grid-view.html">DRAMA</a></li> --}}
-                            </ul>
-                            <div class="book-footer">
-                                <div class="rate">
-                                    <i class="flaticon-star"></i> 6.8
+                @foreach ($booksSales as $book)
+                    <div class="swiper-slide">
+                        <a href="{{ route('detail', $book['slug']) }}">
+                            <div class="books-card style-3 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="tp-media">
+                                    <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">
                                 </div>
-                                @if ($book['discount'])
-                                    <span class="badge badge-warning">Oferta</span>
-                                @endif
-                                <div class="price">
-                                    @if ($book['price'] == "0.00")
-                                        <span class="price-num">GRATIS</span>
-                                    @else
-                                        <span class="price-num">${{ $book['sale'] }}</span>
-                                    @endif
+                                <div class="tp-content">
+                                    <h5 class="title"><a
+                                            href="{{ route('detail', $book['slug']) }}">{{ $book['name'] }}</a></h5>
+                                    <ul class="tp-tags">
+                                        <li><a href="{{ route('detail', $book['slug']) }}">{{ $book['categoria'] }}</a>
+                                        </li>
+                                        {{-- <li><a href="books-grid-view.html">DRAMA</a></li> --}}
+                                    </ul>
+                                    <div class="book-footer">
+                                        <div class="rate">
+                                            <i class="fas fa-heart text-red-700"> {{ $book['hearts'] }}</i>
+                                        </div>
+                                        @if ($book['discount'])
+                                            <span class="badge badge-warning">Oferta</span>
+                                        @endif
+                                        <div class="price">
+                                            @if ($book['price'] == '0.00')
+                                                <span class="price-num">GRATIS</span>
+                                            @else
+                                                <span class="price-num">${{ $book['sale'] }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
-                    </a>
-                </div>
-            @endforeach
+                @endforeach
             </div>
         </div>
     </div>

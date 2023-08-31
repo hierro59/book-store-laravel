@@ -109,12 +109,8 @@
                                             <span class="badge badge-danger">{{ $book['offer'] }}% OFF</span>
                                         @endif
                                     </div>
-                                    <div class="rate">
-                                        <i class="flaticon-star text-yellow"></i>
-                                        <i class="flaticon-star text-yellow"></i>
-                                        <i class="flaticon-star text-yellow"></i>
-                                        <i class="flaticon-star text-yellow"></i>
-                                        <i class="flaticon-star text-muted"></i>
+                                    <div class="rate ml-6">
+                                        <i class="fas fa-heart text-red-700"> {{ $book['hearts'] }}</i>
                                     </div>
                                 </div>
                             </div>

@@ -129,6 +129,7 @@ class WelcomeCotroller extends Controller
             $sale = self::calcularPrecioConDescuento($book->price, $book->discount);
             $year = date('Y', $book->year);
             $heart = OperationServicesController::getHearts($book->id);
+            $countHeart = OperationServicesController::countHearts($book->id);
             $books[$i]['year'] = $year;
             $books[$i]['categoria'] = $categoria->name;
             if (Auth::check()) {
@@ -143,6 +144,7 @@ class WelcomeCotroller extends Controller
             $books[$i]['offer'] = ($book->discount > 0 ? $book->discount : NULL);
             $books[$i]['avatar'] = $avatar;
             $books[$i]['heart'] = $heart;
+            $books[$i]['hearts'] = $countHeart;
         }
         return $books;
     }

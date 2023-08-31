@@ -184,4 +184,15 @@ class OperationServicesController extends Controller
 
         return $getHearts;
     }
+
+    static function countHearts($book_id)
+    {
+        $getHearts = hearts::where('book_id', '=', $book_id)
+            ->whereNull("deleted")
+            ->get();
+
+        $hearts = count($getHearts);
+
+        return $hearts;
+    }
 }

@@ -38,11 +38,7 @@
                             {{-- <li>SCIENCE</li> --}}
                         </ul>
                         <ul class="tp-rating">
-                            <li><i class="flaticon-star text-yellow"></i></li>
-                            <li><i class="flaticon-star text-yellow"></i></li>
-                            <li><i class="flaticon-star text-yellow"></i></li>
-                            <li><i class="flaticon-star text-yellow"></i></li>
-                            <li><i class="flaticon-star text-yellow"></i></li>
+                            <i class="fas fa-heart text-red-700"> {{ $book['hearts'] }}</i>
                         </ul>
                         <div class="book-footer">
                             {{-- <div class="price">
