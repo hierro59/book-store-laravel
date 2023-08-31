@@ -56,7 +56,8 @@ class CatalogHomeCotroller extends Controller
         count($MyLibrary) > 0 ? $owner = true : $owner = false;
         $avatar = OperationServicesController::getPublicAutorImageProfile('avatar', (isset($autor[0]['id']) ? $autor[0]['id'] : NULL));
         $avatarProfile = OperationServicesController::getAuthUserImageProfile('avatar');
-
+        $heart = OperationServicesController::getHearts($book->id);
+        $countHeart = OperationServicesController::countHearts($book->id);
         $data = [
             'book_id' => $book->id,
             'book_slug' => $book->slug,
@@ -74,7 +75,9 @@ class CatalogHomeCotroller extends Controller
             'discount' => ($book->discount > 0 ? $book->discount : NULL),
             'sale' => ($book->discount > 0 ? $sale : $book->price),
             'offer' => ($book->discount > 0 ? $book->discount : NULL),
-            'avatar' => $avatar
+            'avatar' => $avatar,
+            'heart' => $heart,
+            'hearts' => $countHeart
         ];
 
         $pay = [
@@ -117,6 +120,7 @@ class CatalogHomeCotroller extends Controller
 
     public function hearts()
     {
+        logger("por aqui");
         $now = date('Y-m-d H:i:s');
         $getHearts = hearts::where("user_id", "=", $_GET['user_id'])
             ->where("book_id", "=", $_GET['book_id'])

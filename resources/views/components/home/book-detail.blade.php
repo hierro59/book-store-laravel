@@ -101,12 +101,36 @@
                                         @endauth
                                     @endif
 
-                                    <div class="bookmark-btn style-1 d-none d-sm-block">
+                                    @if (Auth::check())
+                                        <div class="bookmark-btn style-1 d-none d-sm-block">
+                                            <input class="form-check-input" type="checkbox"
+                                                id="flexCheckDefault{{ $book['book_id'] }}"
+                                                {{ !$book['heart'] ? '' : 'checked' }}>
+                                            <label class="form-check-label"
+                                                for="flexCheckDefault{{ $book['book_id'] }}"
+                                                data-book_id="{{ $book['book_id'] }}"
+                                                data-user_id="{{ Auth::user()->id }}">
+                                                <i class="flaticon-heart"> {{ $book['hearts'] }}</i>
+                                            </label>
+                                        </div>
+                                    @else
+                                        <a href="{{ route('login') }}">
+                                            <div class="bookmark-btn style-1 d-none d-sm-block">
+                                                <label class="form-check-label"
+                                                    for="flexCheckDefault{{ $book['book_id'] }}">
+                                                    <i class="flaticon-heart">
+                                                        {{ $book['hearts'] }}</i>
+                                                </label>
+                                            </div>
+                                        </a>
+                                    @endif
+
+                                    {{-- <div class="bookmark-btn style-1 d-none d-sm-block">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault1">
                                         <label class="form-check-label" for="flexCheckDefault1">
-                                            <i class="flaticon-heart"></i>
+                                            <i class="flaticon-heart"> {{ $book['hearts'] }}</i>
                                         </label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

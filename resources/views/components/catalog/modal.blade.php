@@ -134,7 +134,6 @@
                                                             </a>
                                                         @endauth
                                                     @endif
-
                                                     {{-- <div class="bookmark-btn style-1 d-none d-sm-block">
                                                         <input class="form-check-input" type="checkbox"
                                                             id="flexCheckDefault1">

@@ -46,11 +46,11 @@
 
             request = $.ajax({
                 type: "get",
-                url: "hearts",
+                url: "/hearts",
                 data: data
             });
+            //console.log(request);
             request.done(function(response) {
-
                 //console.log(response);
             });
             request.fail(function() {
