@@ -8,7 +8,7 @@
         <x-header :notifications="$notifications" :avatar="$avatarProfile" />
         <!-- Header End -->
         <div class="page-content bg-grey">
-            <section class="content-inner-1 border-bottom px-20">
+            <section class="content-inner-1 border-bottom sm:px-20">
                 <div class="container">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="text-2xl">Libros
