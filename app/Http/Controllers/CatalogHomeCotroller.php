@@ -58,6 +58,7 @@ class CatalogHomeCotroller extends Controller
         $avatarProfile = OperationServicesController::getAuthUserImageProfile('avatar');
         $heart = OperationServicesController::getHearts($book->id);
         $countHeart = OperationServicesController::countHearts($book->id);
+        $itsNew = OperationServicesController::calculateNew($book->id);
         $data = [
             'book_id' => $book->id,
             'book_slug' => $book->slug,
@@ -77,7 +78,8 @@ class CatalogHomeCotroller extends Controller
             'offer' => ($book->discount > 0 ? $book->discount : NULL),
             'avatar' => $avatar,
             'heart' => $heart,
-            'hearts' => $countHeart
+            'hearts' => $countHeart,
+            'itsNew' => ($itsNew == true ? 'Nuevo' : NULL)
         ];
 
         $pay = [

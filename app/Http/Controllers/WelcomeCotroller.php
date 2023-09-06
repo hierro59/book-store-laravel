@@ -130,6 +130,7 @@ class WelcomeCotroller extends Controller
             $year = date('Y', $book->year);
             $heart = OperationServicesController::getHearts($book->id);
             $countHeart = OperationServicesController::countHearts($book->id);
+            $itsNew = OperationServicesController::calculateNew($book->id);
             $books[$i]['year'] = $year;
             $books[$i]['categoria'] = $categoria->name;
             if (Auth::check()) {
@@ -145,6 +146,7 @@ class WelcomeCotroller extends Controller
             $books[$i]['avatar'] = $avatar;
             $books[$i]['heart'] = $heart;
             $books[$i]['hearts'] = $countHeart;
+            $books[$i]['itsNew'] = ($itsNew == true ? 'Nuevo' : NULL);
         }
         return $books;
     }

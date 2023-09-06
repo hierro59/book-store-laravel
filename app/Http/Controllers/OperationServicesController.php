@@ -195,4 +195,27 @@ class OperationServicesController extends Controller
 
         return $hearts;
     }
+
+    static function calculateNew($book_id)
+    {
+        $getDate = Books::find($book_id);
+
+        //$now = date('Y-m-d H:i:s');
+
+        //$diff = $getDate->diff($now);
+
+
+        $datetime1 = date_create($getDate->created_at);
+        $datetime2 = date_create(date('Y-m-d H:i:s'));
+        $contador = date_diff($datetime1, $datetime2);
+        $differenceFormat = '%a';
+        $days = $contador->format($differenceFormat);
+
+        $itsNew = false;
+        if ($days < 30) {
+            $itsNew = true;
+        }
+
+        return $itsNew;
+    }
 }

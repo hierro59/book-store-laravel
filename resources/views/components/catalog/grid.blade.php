@@ -11,6 +11,22 @@
                             <img src="{{ asset('thumbnail/covers/' . $book['portada']) }}" alt="book">
                         </a>
                     </div>
+                    <div class="mt-3">
+                        @if ($book['itsNew'] != null)
+                            <span
+                                class="p-2 bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                                <i class="fa-solid fa-face-grin-stars"></i> Nuevo
+                            </span>
+                        @endif
+                        @if ($book['edicion_tp'] == 1)
+                            <span
+                                class="p-2 bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">
+                                <i class="fa-solid fa-medal"></i> Original TP
+                            </span>
+                        @endif
+
+                    </div>
+
 
                     @if (Auth::check())
                         <div class="bookmark-btn style-2">
@@ -32,7 +48,8 @@
                     @endif
 
                     <div class="tp-content">
-                        <h5 class="title">{{ $book['name'] }}</h5>
+                        <h3 class="text-2xl">{{ $book['name'] }}</h3>
+                        <h4 class="text-1xl">{{ $book['autor'] }}</h4>
                         <ul class="tp-tags">
                             <li>{{ strtoupper($book['categoria']) }}</li>
                             {{-- <li>SCIENCE</li> --}}

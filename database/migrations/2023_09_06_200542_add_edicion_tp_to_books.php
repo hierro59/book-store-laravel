@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->integer('autor_id')->nullable();
+            $table->boolean('edicion_tp')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn('autor_id');
+            $table->dropColumn('edicion_tp');
         });
     }
 };

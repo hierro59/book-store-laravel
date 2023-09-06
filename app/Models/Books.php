@@ -10,7 +10,7 @@ class Books extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 
+        'name',
         'autor',
         'coautores',
         'detail',
@@ -24,12 +24,13 @@ class Books extends Model
         'categorie',
         'file_path',
         'created_by',
-        'autor_id'
+        'autor_id',
+        'edicion_tp'
     ];
 
     public function getRouteKeyName()
     {
         return 'slug';
     }
-    
+
 }
