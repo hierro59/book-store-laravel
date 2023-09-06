@@ -25,7 +25,8 @@ class Books extends Model
         'file_path',
         'created_by',
         'autor_id',
-        'edicion_tp'
+        'edicion_tp',
+        'autopublicado'
     ];
 
     public function getRouteKeyName()
