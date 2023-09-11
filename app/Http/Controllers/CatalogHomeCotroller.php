@@ -122,13 +122,23 @@ class CatalogHomeCotroller extends Controller
 
     public function hearts()
     {
-        logger("por aqui");
+
         $now = date('Y-m-d H:i:s');
         $getHearts = hearts::where("user_id", "=", $_GET['user_id'])
             ->where("book_id", "=", $_GET['book_id'])
             ->get();
         if (count($getHearts) == 0) {
             $saveHearts = hearts::create($_GET);
+            $book = Books::find($_GET['book_id']);
+            $customer = User::find($_GET['user_id']);
+            $params_email = [
+                "recipiente_id" => "$book->autor_id",
+                "asunto" => "[AMOR] Tienes un nuevo corazón en tu obra $book->name",
+                "mensaje" => "El usuari@ <b>$customer->name</b> le ha dado amor a tu obra <b>$book->name</b>. 
+                Esto es prueba del excelente trabajo que has hecho. <i>¡Felicidades!</i>"
+            ];
+            OperationServicesController::sendMail($params_email);
+
         } else {
             $saveHearts = hearts::find($getHearts[0]['id']);
             if (!$saveHearts->deleted) {

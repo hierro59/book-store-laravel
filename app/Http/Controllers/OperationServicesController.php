@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Books;
 use App\Models\hearts;
 use App\Models\Categorie;
 use App\Models\MyLibrary;
+use App\Mail\GeneralEmail;
 use Illuminate\Http\Request;
 use App\Models\Notifications;
 use App\Models\SocialNetworks;
 use App\Models\UserUploadImages;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OperationServicesController extends Controller
 {
@@ -217,5 +220,21 @@ class OperationServicesController extends Controller
         }
 
         return $itsNew;
+    }
+
+    static function sendMail($params)
+    {
+        $user = User::find($params['recipiente_id']);
+
+        $objData = new \stdClass();
+        $objData->nombre = $user->name;
+        $objData->subject = $params['asunto'];
+        $objData->mensaje = $params['mensaje'];
+
+        if ($params['bcc']) {
+            Mail::to($user->email)->bcc($params['bcc'])->send(new GeneralEmail($objData));
+        } else {
+            Mail::to($user->email)->send(new GeneralEmail($objData));
+        }
     }
 }
