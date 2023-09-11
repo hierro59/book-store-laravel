@@ -134,8 +134,8 @@ class CatalogHomeCotroller extends Controller
             $params_email = [
                 "recipiente_id" => "$book->autor_id",
                 "asunto" => "[AMOR] Tienes un nuevo corazón en tu obra $book->name",
-                "mensaje" => "El usuari@ <b>$customer->name</b> le ha dado amor a tu obra <b>$book->name</b>. 
-                Esto es prueba del excelente trabajo que has hecho. <i>¡Felicidades!</i>"
+                "mensaje" => "El usuari@ $customer->name le ha dado amor a tu obra $book->name. 
+                Esto es prueba del excelente trabajo que has hecho. ¡Felicidades!"
             ];
             OperationServicesController::sendMail($params_email);
 

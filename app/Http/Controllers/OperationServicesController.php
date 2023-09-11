@@ -231,7 +231,7 @@ class OperationServicesController extends Controller
         $objData->subject = $params['asunto'];
         $objData->mensaje = $params['mensaje'];
 
-        if ($params['bcc']) {
+        if (isset($params['bcc'])) {
             Mail::to($user->email)->bcc($params['bcc'])->send(new GeneralEmail($objData));
         } else {
             Mail::to($user->email)->send(new GeneralEmail($objData));
